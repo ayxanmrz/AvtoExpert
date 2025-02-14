@@ -1,4 +1,45 @@
 .main {
   max-width: 1300px;
   margin: 0 auto;
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+}
+
+.logoDiv {
+}
+
+.logoDiv img {
+  height: 61px;
+}
+
+.buttons {
+  margin-left: auto;
+}
+.buttons ul {
+  display: flex;
+  list-style-type: none;
+  align-items: center;
+  gap: 20px;
+}
+
+.main a {
+  text-decoration: none;
+  color: #2d2d2d;
+  transition: 0.1s linear;
+}
+
+.main a:hover {
+  color: #f6a80b;
+}
+.main a:active {
+  color: #f6a80b;
+}
+
+.activePath {
+  text-decoration: 2px #f6a80b underline !important;
+}
+
+.flagIcon {
+  width: 20px;
 }
