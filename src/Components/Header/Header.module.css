@@ -1,9 +1,14 @@
+.headerDiv {
+  width: 100%;
+  box-shadow: 0 0.1px 11px 2px rgba(68, 89, 88, 0.11);
+}
+
 .main {
   max-width: 1300px;
   margin: 0 auto;
   display: flex;
   align-items: center;
-  padding: 15px 0;
+  padding: 10px 0;
 }
 
 .logoDiv {

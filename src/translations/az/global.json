@@ -4,5 +4,17 @@
         "reviews":"Rəylər",
         "compare":"Müqayisə",
         "contact":"Əlaqə"
+    },
+    "finder":{
+        "price_range": "Qiymət Aralığı",
+        "fuel_type": "Yanacaq Tipi",
+        "petrol": "Benzin",
+        "diesel": "Dizel",
+        "electric": "Elektrik",
+        "hybrid": "Hibrid",
+        "body_type":"Ban Növü",
+        "body_types": {
+            
+        }
     }
 }
