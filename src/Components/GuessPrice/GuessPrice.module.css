@@ -1,0 +1,289 @@
+.container {
+  background-color: rgb(243, 244, 246);
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  min-height: calc(100% - 108px);
+  overflow: scroll;
+  padding: 10px 20px;
+  box-sizing: border-box;
+}
+
+.loadingPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn {
+  background-color: #f6a80b;
+  border: 0;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: aliceblue;
+  font-weight: 700;
+  transition: 0.2s linear;
+}
+
+.btn:hover {
+  background-color: #db9d22;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 70px;
+  aspect-ratio: 1;
+  display: grid;
+  color: #f6a80b;
+  background: radial-gradient(
+    farthest-side,
+    currentColor calc(100% - 6px),
+    #0000 calc(100% - 5px) 0
+  );
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    #0000 calc(100% - 13px),
+    #000 calc(100% - 12px)
+  );
+  border-radius: 50%;
+  animation: l19 2s infinite linear;
+}
+.loader::before,
+.loader::after {
+  content: "";
+  grid-area: 1/1;
+  background: linear-gradient(currentColor 0 0) center,
+    linear-gradient(currentColor 0 0) center;
+  background-size: 100% 10px, 10px 100%;
+  background-repeat: no-repeat;
+}
+.loader::after {
+  transform: rotate(45deg);
+}
+
+@keyframes l19 {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+.mainSide {
+  background-color: rgb(243, 244, 246);
+  padding: 10px 20px;
+  box-sizing: border-box;
+}
+
+.mainSideContainer {
+  width: 100%;
+  background-color: white;
+  box-shadow: 0px 10px 30px -3px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+.imageSlider {
+  padding: 0 10px;
+  position: relative;
+}
+
+.imageSlider > img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
+}
+
+.sliderButtons {
+  border: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+  position: absolute;
+  z-index: 10;
+  transition: 0.2s linear;
+}
+
+.sliderButtons:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.sliderButtons:nth-of-type(1) {
+  left: 16px;
+  z-index: 100;
+}
+.sliderButtons:nth-of-type(2) {
+  right: 16px;
+  z-index: 100;
+}
+
+.sliderButtons svg {
+  color: white;
+  width: 30px;
+  height: 30px;
+}
+
+.infoBoxes {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 20px 30px;
+}
+
+.infoBox {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  color: rgb(17, 24, 39);
+  font-size: 12px;
+  font-weight: 600;
+  background-color: rgb(243, 244, 246);
+  border-radius: 9999px;
+  padding: 6px 12px;
+  box-shadow: 0px 10px 21px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgb(229, 231, 235);
+}
+
+.infoBox svg {
+  width: 20px;
+  height: 20px;
+}
+
+.gameContainer {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 6fr 4fr;
+  max-width: 1500px;
+}
+
+.resultsSide {
+  padding: 10px 20px;
+}
+
+.resultsSideContainer {
+  height: 400px;
+  background-color: white;
+  box-shadow: 0px 10px 30px -3px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+.priceInputSide {
+  border-top: 2px solid rgb(229, 231, 235);
+  display: flex;
+  justify-content: center;
+  padding: 30px 20px;
+}
+
+.priceInputSideContainer {
+  /* max-width: 28rem; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 450px;
+}
+.priceInputDiv {
+  position: relative;
+  width: 100%;
+}
+
+.manatSymbol {
+  position: absolute;
+  left: 23px;
+  top: 28px;
+  transform: translate(-50%, -50%);
+  font-size: 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 20px;
+  user-select: none;
+}
+
+.priceInput {
+  font-size: 20px;
+  font-weight: 500;
+  padding: 16px 80px 16px 40px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 12px;
+  border: 2px solid #f6a80b;
+}
+
+.priceInput:focus {
+  outline: 0;
+  border: 2px solid #d98d14;
+}
+
+.priceSubmitButton {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 8px;
+  transition: 0.1s linear;
+  cursor: pointer;
+}
+
+.priceSubmitButton:not([disabled]) {
+  background-color: #f6a80b;
+}
+
+.priceSubmitButton:not([disabled]) svg {
+  fill: white;
+  transition: 0.1s linear;
+}
+
+.priceButtons {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  row-gap: 8px;
+  column-gap: 16px;
+  width: 100%;
+}
+.priceButton {
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.priceButton:active {
+  scale: 0.95;
+}
+.plusButton {
+  background-color: rgb(236, 253, 245);
+  color: rgb(5, 150, 105);
+}
+.minusButton {
+  background-color: rgb(254, 242, 242);
+  color: rgb(220, 38, 38);
+}
+
+.greenSpan {
+  background-color: rgb(236, 253, 245);
+  color: rgb(5, 150, 105);
+}
+.yellowSpan {
+  background-color: rgb(255, 247, 237);
+  color: rgb(251, 191, 36);
+}
+.redSpan {
+  background-color: rgb(254, 242, 242);
+  color: rgb(220, 38, 38);
+}

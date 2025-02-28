@@ -1,0 +1,43 @@
+{
+  "header": {
+    "home": "Главная",
+    "reviews": "Отзывы",
+    "compare": "Сравнение",
+    "contact": "Контакт",
+    "price_guesser": "Угадай цену"
+  },
+  "finder": {
+    "price_range": "Ценовой диапазон",
+    "fuel_type": "Тип топлива",
+    "petrol": "Бензин",
+    "diesel": "Дизель",
+    "electric": "Электро",
+    "hybrid": "Гибрид",
+    "body_type": "Тип кузова"
+  },
+  "price_guesser": {
+    "loading": "Загрузка автомобилей, пожалуйста, подождите...",
+    "refresh": "Обновить автомобили",
+    "horse_power": "л.с.",
+    "fuel_types": {
+      "benzin": "Бензин",
+      "dizel": "Дизель",
+      "qaz": "Газ",
+      "elektro": "Электро",
+      "hibrid": "Гибрид",
+      "plug-in-hibrid": "Подключаемый гибрид",
+      "hidrogen": "Водород"
+    },
+    "transmission_types": {
+      "avtomat": "Автомат",
+      "variator": "Вариатор",
+      "mexaniki": "Механика",
+      "robot": "Робот",
+      "reduktor": "Редуктор"
+    },
+    "round_result": "Результат раунда",
+    "actual_price": "Фактическая цена:",
+    "your_guess": "Ваш прогноз:",
+    "next_round": "Следующий раунд"
+  }
+}

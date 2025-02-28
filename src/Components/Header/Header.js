@@ -10,6 +10,7 @@ import Select from "@mui/material/Select";
 
 import az_flag from "../../images/az_flag.svg";
 import en_flag from "../../images/en_flag.svg";
+import ru_flag from "../../images/ru_flag.svg";
 
 function Header() {
   const location = useLocation();
@@ -43,6 +44,19 @@ function Header() {
                 }
               >
                 {t("header.home")}
+              </Link>
+            </li>
+            <li>
+              {" "}
+              <Link
+                to="/guess-the-price"
+                className={
+                  location.pathname === "/guess-the-price"
+                    ? styles.activePath
+                    : undefined
+                }
+              >
+                {t("header.price_guesser")}
               </Link>
             </li>
             <li>
@@ -106,6 +120,14 @@ function Header() {
                       alt="AZ"
                     ></img>
                     <div>AZ</div>
+                  </MenuItem>
+                  <MenuItem sx={MenuItemStyle} value={"ru"}>
+                    <img
+                      className={styles.flagIcon}
+                      src={ru_flag}
+                      alt="RU"
+                    ></img>
+                    <div>RU</div>
                   </MenuItem>
                   <MenuItem sx={MenuItemStyle} value={"en"}>
                     <img

@@ -1,20 +1,44 @@
 {
-    "header":{
-        "home":"Əsas Səhifə",
-        "reviews":"Rəylər",
-        "compare":"Müqayisə",
-        "contact":"Əlaqə"
+  "header": {
+    "home": "Əsas Səhifə",
+    "reviews": "Rəylər",
+    "compare": "Müqayisə",
+    "contact": "Əlaqə",
+    "price_guesser": "Qiyməti Təxmin Et"
+  },
+  "finder": {
+    "price_range": "Qiymət Aralığı",
+    "fuel_type": "Yanacaq Tipi",
+    "petrol": "Benzin",
+    "diesel": "Dizel",
+    "electric": "Elektrik",
+    "hybrid": "Hibrid",
+    "body_type": "Ban Növü",
+    "body_types": {}
+  },
+  "price_guesser": {
+    "loading": "Xahiş edirik gözləyin...",
+    "refresh": "Yenilə",
+    "horse_power": "a.g.",
+    "fuel_types": {
+      "benzin": "Benzin",
+      "dizel": "Dizel",
+      "qaz": "Qaz",
+      "elektro": "Elektro",
+      "hibrid": "Hibrid",
+      "plug-in-hibrid": "Plug-in Hibrid",
+      "hidrogen": "Hidrogen"
     },
-    "finder":{
-        "price_range": "Qiymət Aralığı",
-        "fuel_type": "Yanacaq Tipi",
-        "petrol": "Benzin",
-        "diesel": "Dizel",
-        "electric": "Elektrik",
-        "hybrid": "Hibrid",
-        "body_type":"Ban Növü",
-        "body_types": {
-            
-        }
-    }
+    "transmission_types": {
+      "avtomat": "Avtomat",
+      "variator": "Variator",
+      "mexaniki": "Mexaniki",
+      "robot": "Robot",
+      "reduktor": "Reduktor"
+    },
+    "round_result": "Turun Nəticəsi",
+    "actual_price": "Əsl Qiyməti:",
+    "your_guess": "Sənin Təxminin:",
+    "next_round": "Növbəti Tur"
+  }
 }

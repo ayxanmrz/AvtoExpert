@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import global_en from "./translations/en/global.json";
 import global_az from "./translations/az/global.json";
+import global_ru from "./translations/ru/global.json";
 import i18next from "i18next";
 import { I18nextProvider } from "react-i18next";
 
@@ -18,6 +19,9 @@ i18next.init({
     },
     az: {
       global: global_az,
+    },
+    ru: {
+      global: global_ru,
     },
   },
 });

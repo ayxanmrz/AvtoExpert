@@ -1,17 +1,44 @@
 {
-    "header":{
-        "home":"Home",
-        "reviews":"Reviews",
-        "compare":"Compare",
-        "contact":"Contact"
+  "header": {
+    "home": "Home",
+    "reviews": "Reviews",
+    "compare": "Compare",
+    "contact": "Contact",
+    "price_guesser": "Guess the Price"
+  },
+  "finder": {
+    "price_range": "Price Range",
+    "fuel_type": "Fuel Type",
+    "petrol": "Petrol",
+    "diesel": "Diesel",
+    "electric": "Electric",
+    "hybrid": "Hybrid",
+    "body_type": "Body Type"
+  },
+  "price_guesser": {
+    "loading": "Loading cars, please wait...",
+    "refresh": "Refresh Cars",
+    "horse_power": "hp",
+    "fuel_types": {
+      "benzin": "Petrol",
+      "dizel": "Diesel",
+      "qaz": "Gas",
+      "elektro": "Electric",
+      "hibrid": "Hybrid",
+      "plug-in-hibrid": "Plug-in Hybrid",
+      "hidrogen": "Hydrogen"
     },
-    "finder":{
-        "price_range": "Price Range",
-        "fuel_type": "Fuel Type",
-        "petrol": "Petrol",
-        "diesel": "Diesel",
-        "electric": "Electric",
-        "hybrid": "Hybrid"
 
-    }
+    "transmission_types": {
+      "avtomat": "Automatic",
+      "variator": "CVT",
+      "mexaniki": "Manual",
+      "robot": "Automated Manual",
+      "reduktor": "Reducer"
+    },
+    "round_result": "Round Result",
+    "actual_price": "Actual Price:",
+    "your_guess": "Your Guess:",
+    "next_round": "Next Round"
+  }
 }
