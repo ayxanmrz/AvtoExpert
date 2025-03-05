@@ -24,8 +24,13 @@ function ResultPage(props) {
         </p>
       </div>
 
-      <button onClick={props.handleNext} className={styles.nextBtn}>
-        {t("price_guesser.next_round")}
+      <button
+        onClick={props.isLast ? props.handleRestart : props.handleNext}
+        className={styles.nextBtn}
+      >
+        {props.isLast
+          ? t("price_guesser.start_again")
+          : t("price_guesser.next_round")}
       </button>
     </div>
   );

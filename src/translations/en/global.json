@@ -39,6 +39,8 @@
     "round_result": "Round Result",
     "actual_price": "Actual Price:",
     "your_guess": "Your Guess:",
-    "next_round": "Next Round"
+    "next_round": "Next Round",
+    "results": "Results",
+    "start_again": "Play Again"
   }
 }

@@ -9,8 +9,11 @@ import { ReactComponent as RightArrow } from "../../images/PriceGuessIcons/right
 import { ReactComponent as LeftArrow } from "../../images/PriceGuessIcons/left.svg";
 import { ReactComponent as TransmissionSvg } from "../../images/PriceGuessIcons/transmission.svg";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import SportsScoreIcon from "@mui/icons-material/SportsScore";
 import ResultPage from "./ResultPage/ResultPage";
-// Your API endpoint
+import badSound from "../../sounds/bad.mp3";
+import normalSound from "../../sounds/normal.mp3";
+import goodSound from "../../sounds/good.mp3";
 
 function GuessPrice() {
   const [cars, setCars] = useState([]);
@@ -24,6 +27,12 @@ function GuessPrice() {
 
   const [priceGuess, setPriceGuess] = useState(0);
   const API_URL = "http://localhost:4000/get-random-cars";
+
+  const [results, setResults] = useState([]);
+
+  const play = (sound) => {
+    new Audio(sound).play();
+  };
 
   /** Fetch Cars */
   const fetchCars = async () => {
@@ -92,7 +101,22 @@ function GuessPrice() {
   const submitCar = () => {
     if (priceGuess !== 0 && priceGuess > 0) {
       setShowResults(true);
+      playSoundAccScore(calculateScore(cars[currentIndex].price, priceGuess));
+      setResults((prev) => [
+        {
+          title: cars[currentIndex].title,
+          score: calculateScore(cars[currentIndex].price, priceGuess),
+        },
+        ...prev,
+      ]);
     }
+  };
+
+  const handleRestart = () => {
+    setShowResults(false);
+    setResults([]);
+    fetchCars();
+    setPriceGuess(0);
   };
 
   const nextCar = () => {
@@ -108,6 +132,16 @@ function GuessPrice() {
       return styles.yellowSpan;
     } else {
       return styles.redSpan;
+    }
+  };
+
+  const playSoundAccScore = (score) => {
+    if (score > 850) {
+      return play(goodSound);
+    } else if (score > 500) {
+      return play(normalSound);
+    } else {
+      return play(badSound);
     }
   };
 
@@ -144,7 +178,7 @@ function GuessPrice() {
         </div>
       )}
 
-      {cars.length > 0 && (
+      {(cars.length && !loading) > 0 && (
         <>
           {" "}
           <div className={styles.gameContainer}>
@@ -152,11 +186,13 @@ function GuessPrice() {
               {showResults && (
                 <ResultPage
                   score={calculateScore(cars[currentIndex].price, priceGuess)}
+                  isLast={currentIndex === cars.length - 1}
                   price={numberWithCommas(cars[currentIndex].price)}
                   spanColor={getSpanColor(
                     calculateScore(cars[currentIndex].price, priceGuess)
                   )}
                   handleNext={nextCar}
+                  handleRestart={handleRestart}
                 />
               )}
               <div
@@ -314,7 +350,30 @@ function GuessPrice() {
               </div>
             </div>
             <div className={styles.resultsSide}>
-              <div className={styles.resultsSideContainer}></div>
+              <div className={styles.resultsSideContainer}>
+                <div className={styles.resultsTop}>
+                  <SportsScoreIcon style={{ color: "#f6a80b" }} />
+                  {t("price_guesser.results")}
+                  <span className={styles.scoreSpan}>
+                    {results.reduce((sum, elem) => sum + elem.score, 0)} /{" "}
+                    {results.length * 1000}
+                  </span>
+                </div>
+                <div className={styles.resultDivs}>
+                  {results.map((result) => (
+                    <div className={styles.resultDiv}>
+                      <span className={styles.resultTitle}>{result.title}</span>
+                      <span
+                        className={
+                          styles.scoreSpan + " " + getSpanColor(result.score)
+                        }
+                      >
+                        {result.score}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </>

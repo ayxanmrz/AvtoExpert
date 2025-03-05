@@ -39,6 +39,8 @@
     "round_result": "Turun Nəticəsi",
     "actual_price": "Əsl Qiyməti:",
     "your_guess": "Sənin Təxminin:",
-    "next_round": "Növbəti Tur"
+    "next_round": "Növbəti Tur",
+    "results": "Nəticələr",
+    "start_again": "Yenidən Başla"
   }
 }
