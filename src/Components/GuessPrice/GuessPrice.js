@@ -34,7 +34,6 @@ function GuessPrice() {
     new Audio(sound).play();
   };
 
-  /** Fetch Cars */
   const fetchCars = async () => {
     setLoading(true);
     setError(null);
@@ -69,7 +68,6 @@ function GuessPrice() {
     if (e.type === "paste") {
       key = e.clipboardData.getData("text/plain");
     } else {
-      // Handle key press
       var key = e.keyCode || e.which;
       key = String.fromCharCode(key);
     }
@@ -117,10 +115,12 @@ function GuessPrice() {
     setResults([]);
     fetchCars();
     setPriceGuess(0);
+    setCurrentImageIndex(0);
   };
 
   const nextCar = () => {
     setShowResults(false);
+    setCurrentImageIndex(0);
     setCurrentIndex((prev) => prev + 1);
     setPriceGuess(0);
   };
@@ -145,7 +145,6 @@ function GuessPrice() {
     }
   };
 
-  /** Fetch on Component Mount */
   useEffect(() => {
     fetchCars();
   }, []);
@@ -214,7 +213,8 @@ function GuessPrice() {
                       <LeftArrow stroke="white"></LeftArrow>
                     </button>
                     <img
-                      src={cars[currentIndex].images[currentImageIndex]}
+                      src={cars[currentIndex]?.images[currentImageIndex]}
+                      alt="Car Image"
                     ></img>
                     <button
                       className={styles.sliderButtons}
@@ -360,8 +360,8 @@ function GuessPrice() {
                   </span>
                 </div>
                 <div className={styles.resultDivs}>
-                  {results.map((result) => (
-                    <div className={styles.resultDiv}>
+                  {results.map((result, index) => (
+                    <div key={index} className={styles.resultDiv}>
                       <span className={styles.resultTitle}>{result.title}</span>
                       <span
                         className={
