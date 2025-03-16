@@ -51,7 +51,7 @@ function Header() {
               <Link
                 to="/guess-the-price"
                 className={
-                  location.pathname === "/guess-the-price"
+                  location.pathname.startsWith("/guess-the-price")
                     ? styles.activePath
                     : undefined
                 }

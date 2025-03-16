@@ -6,6 +6,8 @@ import Reviews from "./Components/Reviews/Reviews";
 import Contact from "./Components/Contact/Contact";
 import CompareCars from "./Components/CompareCars/CompareCars";
 import GuessPrice from "./Components/GuessPrice/GuessPrice";
+import GuessPriceSelect from "./Components/GuessPriceSelect/GuessPriceSelect";
+import MultiPlayerStart from "./Components/MultiPlayerStart/MultiPlayerStart";
 
 function App() {
   return (
@@ -16,7 +18,12 @@ function App() {
         <Route path="/reviews" element={<Reviews />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/compare" element={<CompareCars />} />
-        <Route path="/guess-the-price" element={<GuessPrice />} />
+        <Route path="/guess-the-price" element={<GuessPriceSelect />} />
+        <Route path="/guess-the-price/singleplayer" element={<GuessPrice />} />
+        <Route
+          path="/guess-the-price/multiplayer"
+          element={<MultiPlayerStart />}
+        />
       </Routes>
     </div>
   );

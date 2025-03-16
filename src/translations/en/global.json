@@ -41,6 +41,8 @@
     "your_guess": "Your Guess:",
     "next_round": "Next Round",
     "results": "Results",
-    "start_again": "Play Again"
+    "start_again": "Play Again",
+    "single_player": "Single Player",
+    "multi_player": "Multiplayer"
   }
 }

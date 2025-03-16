@@ -41,6 +41,8 @@
     "your_guess": "Sənin Təxminin:",
     "next_round": "Növbəti Tur",
     "results": "Nəticələr",
-    "start_again": "Yenidən Başla"
+    "start_again": "Yenidən Başla",
+    "single_player": "Tək Oyunçu",
+    "multi_player": "Çox Oyunçu"
   }
 }
