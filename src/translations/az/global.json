@@ -43,6 +43,13 @@
     "results": "Nəticələr",
     "start_again": "Yenidən Başla",
     "single_player": "Tək Oyunçu",
-    "multi_player": "Çox Oyunçu"
+    "multi_player": "Çox Oyunçu",
+    "players": "Oyunçular",
+    "lobby_info": "Lobbi Məlumatları",
+    "copy_invite_link": "Dəvət Linkini Kopyala",
+    "round_duration": "Turun Müddəti",
+    "number_of_rounds": "Turların Sayı",
+    "waiting_for_host": "Aparıcının başlatmasını gözləyin...",
+    "start_game": "Oyunu Başlat"
   }
 }

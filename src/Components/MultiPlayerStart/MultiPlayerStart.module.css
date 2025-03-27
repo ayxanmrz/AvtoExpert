@@ -88,3 +88,8 @@
   right: 0;
   z-index: 100;
 }
+
+.button:disabled {
+  background-color: #d99611;
+  cursor: not-allowed;
+}

@@ -43,6 +43,13 @@
     "results": "Results",
     "start_again": "Play Again",
     "single_player": "Single Player",
-    "multi_player": "Multiplayer"
+    "multi_player": "Multiplayer",
+    "players": "Players",
+    "lobby_info": "Lobby Information",
+    "copy_invite_link": "Copy Invite Link",
+    "round_duration": "Round Duration",
+    "number_of_rounds": "Number of Rounds",
+    "waiting_for_host": "Waiting for the host to start...",
+    "start_game": "Start the Game"
   }
 }

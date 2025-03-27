@@ -14,6 +14,7 @@ import ResultPage from "./ResultPage/ResultPage";
 import badSound from "../../sounds/bad.mp3";
 import normalSound from "../../sounds/normal.mp3";
 import goodSound from "../../sounds/good.mp3";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 function GuessPrice() {
   const [cars, setCars] = useState([]);
@@ -151,15 +152,7 @@ function GuessPrice() {
 
   return (
     <div className={styles.container}>
-      {loading && (
-        <div className={styles.loadingPage}>
-          {" "}
-          <div className={styles.loader}></div>
-          <p style={{ fontSize: "20px", fontWeight: 500 }}>
-            {t("price_guesser.loading")}
-          </p>
-        </div>
-      )}
+      {loading && <LoadingPage />}
       {error && (
         <div
           style={{

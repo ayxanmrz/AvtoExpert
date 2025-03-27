@@ -2,47 +2,52 @@ import styles from "./MultiPlayerStart.module.css";
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import { ReactComponent as PpIcon } from "../../images/PriceGuessIcons/pp.svg";
-
 import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
-
-const socket = io("http://localhost:8000");
+import { useSocket } from "../../SocketProvider";
+import { useNavigate } from "react-router-dom";
 
 function MultiPlayerStart() {
   const [lobbyId, setLobbyId] = useState("");
   const [joinId, setJoinId] = useState("");
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(
+    localStorage.getItem("username") || ""
+  );
   const [players, setPlayers] = useState([]);
   const [showLoginInput, setShowLoginInput] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [showJoinError, setShowJoinError] = useState(false);
+
+  const socket = useSocket();
+
+  let navigate = useNavigate();
 
   useEffect(() => {
-    socket.on("lobby-created", ({ lobbyId }) => {
-      setLobbyId(lobbyId);
-    });
-    socket.on("player-joined", ({ players }) => setPlayers(players));
-    socket.on("round-started", ({ round }) =>
-      console.log(`Round ${round} started`)
-    );
-    socket.on("round-ended", ({ round }) =>
-      console.log(`Round ${round} ended`)
-    );
-    socket.on("game-ended", () => console.log("Game over"));
+    if (!socket) return;
 
-    return () => socket.disconnect();
-  }, []);
+    socket?.on("lobby-created", ({ lobbyId }) => {
+      navigate("/guess-the-price/multiplayer/" + lobbyId);
+    });
+
+    // return () => socket?.disconnect();
+  }, [socket]);
 
   const createLobby = () => {
-    const newLobbyId = Math.random().toString(36).substr(2, 5);
+    localStorage.setItem("username", username);
     socket.emit("create-lobby", {
-      lobbyId: newLobbyId,
       roundTime: 10,
       totalRounds: 3,
     });
   };
-  const startLobby = () => {
-    socket.emit("start-game", {
-      lobbyId: lobbyId,
+  const joinLobby = () => {
+    localStorage.setItem("username", username);
+    socket.emit("join-lobby", joinId, username, (response) => {
+      console.log(response.status);
+      if (response.status) {
+        setShowJoinError(false);
+        navigate("/guess-the-price/multiplayer/" + joinId);
+      } else {
+        setShowJoinError(true);
+      }
     });
   };
 
@@ -99,7 +104,11 @@ function MultiPlayerStart() {
           fullWidth
         />
         <div className={styles.buttons}>
-          <button className={styles.button} onClick={createLobby}>
+          <button
+            className={styles.button}
+            onClick={createLobby}
+            disabled={showError}
+          >
             Create Lobby
           </button>
           <div
@@ -128,6 +137,7 @@ function MultiPlayerStart() {
               onChange={(e) => {
                 setJoinId(e.target.value);
               }}
+              helperText={showJoinError ? "This lobby doesn't exist." : ""}
               fullWidth
               label="Lobby ID"
             />
@@ -135,11 +145,12 @@ function MultiPlayerStart() {
               className={styles.button}
               onClick={
                 showLoginInput
-                  ? startLobby
+                  ? joinLobby
                   : () => {
                       setShowLoginInput(true);
                     }
               }
+              disabled={showError}
             >
               {showLoginInput ? "->" : "Join Lobby"}
             </button>
