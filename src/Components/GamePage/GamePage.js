@@ -10,6 +10,10 @@ import LinkIcon from "@mui/icons-material/Link";
 import { useTranslation } from "react-i18next";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import Alert from "@mui/material/Alert";
+import GuessPriceOnline from "../GuessPriceOnline/GuessPriceOnline";
+import badSound from "../../sounds/bad.mp3";
+import normalSound from "../../sounds/normal.mp3";
+import goodSound from "../../sounds/good.mp3";
 
 function GamePage() {
   const { lobbyId } = useParams();
@@ -21,6 +25,21 @@ function GamePage() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const [currentCar, setCurrentCar] = useState();
+  const [lastScore, setLastScore] = useState(0);
+
+  const [showResult, setShowResult] = useState(false);
+
+  const [timeLeft, setTimeLeft] = useState(null);
+
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const [priceGuess, setPriceGuess] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const [totalNumberOfCars, setTotalNumberOfCars] = useState(0);
+  const [currentRoundNumber, setCurrentRoundNumber] = useState(0);
 
   const [t, i18n] = useTranslation("global");
   let navigate = useNavigate();
@@ -70,6 +89,30 @@ function GamePage() {
     }
   };
 
+  const submitCar = (priceGuess) => {
+    console.log(isSubmitted);
+    if (!isSubmitted) {
+      socket.emit("guess-price", lobbyId, priceGuess, (callback) => {
+        setLastScore(callback.score);
+        setIsSubmitted(true);
+      });
+    }
+  };
+
+  const play = (sound) => {
+    new Audio(sound).play();
+  };
+
+  const playSoundAccScore = (score) => {
+    if (score > 850) {
+      return play(goodSound);
+    } else if (score > 500) {
+      return play(normalSound);
+    } else {
+      return play(badSound);
+    }
+  };
+
   useEffect(() => {
     console.log("---------------------");
     console.log(lobbyParams);
@@ -97,10 +140,11 @@ function GamePage() {
       });
 
       socket.on("loading", ({ status }) => setLoading(status));
-      socket.on("game-started", () => {
+      socket.on("game-started", ({ roundNumber }) => {
         setLoading(false);
         setCurrentStatus("game");
         setError(null);
+        setTotalNumberOfCars(roundNumber);
       });
       socket.on("game-error", ({ message }) => {
         setError(message);
@@ -113,19 +157,57 @@ function GamePage() {
           setLobbyParams((prev) => ({ ...prev, host }));
         }
       });
-      socket?.on("round-started", ({ round }) =>
-        console.log(`Round ${round} started`)
-      );
-      socket?.on("round-ended", ({ round }) =>
-        console.log(`Round ${round} ended`)
-      );
-      socket?.on("game-ended", () => console.log("Game over"));
+      socket?.on("round-ended", ({ round, players }) => {
+        console.log(`Round ${round} ended`);
+        setShowResult(true);
+        setPlayers(players);
+        playSoundAccScore(lastScore);
+      });
+      socket?.on("game-ended", () => {
+        console.log("Game over");
+        setCurrentStatus("lobby"); // Return to lobby
+        setShowResult(false);
+        setLastScore(0);
+        setCurrentCar(null);
+      });
 
       return () => {
         socket.disconnect();
       };
     }
   }, [socket, lobbyId, username]);
+
+  useEffect(() => {
+    socket?.on("round-started", ({ round, currentCar, startTime }) => {
+      console.log(`Round ${round} started`);
+      console.log(`Car ${round}: ${currentCar}`);
+
+      setCurrentCar(currentCar);
+      setShowResult(false);
+      setLastScore(0);
+      setIsSubmitted(false);
+      setCurrentImageIndex(0);
+      setPriceGuess(0);
+      setCurrentRoundNumber(round);
+
+      const endTime = startTime + lobbyParams.roundTime * 1000;
+
+      // Set interval to decrease every 0.2 seconds
+      const interval = setInterval(() => {
+        const remaining = Math.max(
+          0,
+          ((endTime - Date.now()) / 1000).toFixed(1)
+        );
+        setTimeLeft(remaining);
+
+        if (remaining <= 0) clearInterval(interval); // Stop when it reaches 0
+      }, 100);
+
+      return () => clearInterval(interval);
+    });
+
+    return () => socket?.off("round-started");
+  }, [lobbyParams]);
   return (
     // <>
     //   LobbyId: {lobbyId}, Socket: {socket?.id}
@@ -141,6 +223,28 @@ function GamePage() {
     //     ))}
     // </>
     <div className={styles.main}>
+      {currentStatus === "game" && (
+        <>
+          <GuessPriceOnline
+            currentCar={currentCar}
+            isLast={currentRoundNumber === totalNumberOfCars}
+            handleSubmitCar={(priceGuess) => {
+              if (!showResult) submitCar(priceGuess);
+            }}
+            showResult={showResult}
+            results={players}
+            lastScore={lastScore}
+            timer={(timeLeft / lobbyParams.roundTime) * 100}
+            isSubmitted={isSubmitted}
+            priceGuess={priceGuess}
+            setPriceGuess={setPriceGuess}
+            currentImageIndex={currentImageIndex}
+            setCurrentImageIndex={setCurrentImageIndex}
+            totalNumberOfCars={totalNumberOfCars}
+            currentRoundNumber={currentRoundNumber}
+          />
+        </>
+      )}
       {error && (
         <Alert
           sx={{ position: "absolute", top: "10px", right: "10px" }}

@@ -50,6 +50,11 @@
     "round_duration": "Round Duration",
     "number_of_rounds": "Number of Rounds",
     "waiting_for_host": "Waiting for the host to start...",
-    "start_game": "Start the Game"
+    "start_game": "Start the Game",
+    "create_lobby": "Create Lobby",
+    "join_lobby": "Join Lobby",
+    "wait_for_the_next_round": "Next round starting soon...",
+    "match_finished": "Match finished! Sending you back to the lobby...",
+    "round": "Round"
   }
 }

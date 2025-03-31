@@ -1,0 +1,71 @@
+.main {
+  width: 100%;
+  height: 400px;
+  border-radius: 12px;
+  background-color: white;
+  border: 2px solid #f6a80b;
+  box-sizing: border-box;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.topText {
+  width: 100%;
+  text-align: center;
+}
+.topText p {
+  margin: 0;
+}
+
+.roundResult {
+  color: rgb(17, 24, 39);
+  font-weight: 700;
+  font-size: 30px;
+  margin-bottom: 15px !important;
+}
+
+.actualPrice {
+  color: rgb(5, 150, 105);
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.scoreText {
+  font-weight: 500;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.scoreSpan {
+  border-radius: 99999px;
+  padding: 4px 8px;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.1);
+}
+
+.nextBtn {
+  padding: 15px 20px;
+  border: 0;
+  background-color: #f6a80b;
+  border-radius: 8px;
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.1s linear;
+}
+
+.nextBtn:hover {
+  background-color: #db9d22;
+}
+
+.nextBtn:disabled {
+  background-color: #d99611;
+  cursor: wait;
+}

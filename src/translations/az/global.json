@@ -50,6 +50,11 @@
     "round_duration": "Turun Müddəti",
     "number_of_rounds": "Turların Sayı",
     "waiting_for_host": "Aparıcının başlatmasını gözləyin...",
-    "start_game": "Oyunu Başlat"
+    "start_game": "Oyunu Başlat",
+    "create_lobby": "Lobbi Yarat",
+    "join_lobby": "Lobbiyə Qoşul",
+    "wait_for_the_next_round": "Növbəti tur tezliklə başlayacaq...",
+    "match_finished": "Oyun bitdi! Sizi lobbiyə qaytarırıq...",
+    "round": "Tur"
   }
 }

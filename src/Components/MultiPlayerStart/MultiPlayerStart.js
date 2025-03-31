@@ -5,6 +5,7 @@ import { ReactComponent as PpIcon } from "../../images/PriceGuessIcons/pp.svg";
 import { useEffect, useState } from "react";
 import { useSocket } from "../../SocketProvider";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function MultiPlayerStart() {
   const [lobbyId, setLobbyId] = useState("");
@@ -18,6 +19,8 @@ function MultiPlayerStart() {
   const [showJoinError, setShowJoinError] = useState(false);
 
   const socket = useSocket();
+
+  const [t, i18n] = useTranslation("global");
 
   let navigate = useNavigate();
 
@@ -40,7 +43,7 @@ function MultiPlayerStart() {
   };
   const joinLobby = () => {
     localStorage.setItem("username", username);
-    socket.emit("join-lobby", joinId, username, (response) => {
+    socket.emit("check-lobby", joinId, (response) => {
       console.log(response.status);
       if (response.status) {
         setShowJoinError(false);
@@ -109,7 +112,7 @@ function MultiPlayerStart() {
             onClick={createLobby}
             disabled={showError}
           >
-            Create Lobby
+            {t("price_guesser.create_lobby")}
           </button>
           <div
             className={
@@ -152,7 +155,7 @@ function MultiPlayerStart() {
               }
               disabled={showError}
             >
-              {showLoginInput ? "->" : "Join Lobby"}
+              {showLoginInput ? "->" : t("price_guesser.join_lobby")}
             </button>
           </div>
         </div>
