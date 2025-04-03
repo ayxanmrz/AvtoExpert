@@ -1,7 +1,6 @@
 .headerDiv {
   width: 100%;
   box-shadow: 0 0.1px 11px 2px rgba(68, 89, 88, 0.11);
-  z-index: 999999;
 }
 
 .main {
@@ -46,9 +45,55 @@
 
 .activePath {
   font-weight: 700;
-  text-decoration: 2px #f6a80b underline !important;
+  text-decoration: underline !important;
+  text-decoration-color: #f6a80b !important;
+  text-decoration-thickness: 2px !important;
 }
 
 .flagIcon {
   width: 20px;
+}
+
+.menuIcon {
+  display: none;
+}
+
+/* Medium Desktop */
+@media only screen and (max-width: 775px) {
+  .main a {
+    font-size: 14px;
+  }
+}
+
+/* Small Desktop */
+@media only screen and (max-width: 726px) {
+  .main a {
+    font-size: 12px;
+  }
+  .buttons ul {
+    margin: 5px 0;
+    gap: 15px;
+  }
+  .logoDiv img {
+    height: 50px;
+  }
+  .flagIcon {
+    width: 15px;
+  }
+}
+
+/* Mobile */
+@media only screen and (max-width: 625px) {
+  .buttons li:not(.menuIcon) {
+    display: none;
+  }
+  .menuIcon {
+    display: block;
+  }
+  .logoDiv img {
+    height: 61px;
+  }
+  .main {
+    padding: 10px 20px;
+  }
 }

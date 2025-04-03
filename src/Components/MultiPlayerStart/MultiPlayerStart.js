@@ -4,8 +4,9 @@ import { styled } from "@mui/material/styles";
 import { ReactComponent as PpIcon } from "../../images/PriceGuessIcons/pp.svg";
 import { useEffect, useState } from "react";
 import { useSocket } from "../../SocketProvider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import Alert from "@mui/material/Alert";
 
 function MultiPlayerStart() {
   const [lobbyId, setLobbyId] = useState("");
@@ -20,9 +21,25 @@ function MultiPlayerStart() {
 
   const socket = useSocket();
 
+  let navigate = useNavigate();
+  const location = useLocation();
+
   const [t, i18n] = useTranslation("global");
 
-  let navigate = useNavigate();
+  const queryParams = new URLSearchParams(location.search);
+  const redirectLobbyId = queryParams.get("redirect");
+
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    if (!location) return;
+
+    console.log(location);
+
+    if (location.state?.err) {
+      setError(t("errors." + location.state.err));
+    }
+  }, [location, t]);
 
   useEffect(() => {
     if (!socket) return;
@@ -35,23 +52,35 @@ function MultiPlayerStart() {
   }, [socket]);
 
   const createLobby = () => {
-    localStorage.setItem("username", username);
-    socket.emit("create-lobby", {
-      roundTime: 10,
-      totalRounds: 3,
-    });
+    if (username.trim().length > 3) {
+      localStorage.setItem("username", username);
+      socket.emit("create-lobby", {
+        roundTime: 10,
+        totalRounds: 3,
+      });
+    }
   };
   const joinLobby = () => {
-    localStorage.setItem("username", username);
-    socket.emit("check-lobby", joinId, (response) => {
-      console.log(response.status);
-      if (response.status) {
-        setShowJoinError(false);
-        navigate("/guess-the-price/multiplayer/" + joinId);
-      } else {
-        setShowJoinError(true);
-      }
-    });
+    if (username.trim().length > 3) {
+      localStorage.setItem("username", username);
+      socket.emit("check-lobby", joinId, (response) => {
+        console.log(response.status);
+        if (response.status) {
+          setShowJoinError(false);
+          navigate("/guess-the-price/multiplayer/" + joinId);
+        } else {
+          setShowJoinError(true);
+          setError(t("errors." + response.err));
+        }
+      });
+    }
+  };
+
+  const redirectLobby = () => {
+    if (username.trim().length > 3) {
+      localStorage.setItem("username", username);
+      navigate(`/guess-the-price/multiplayer/${redirectLobbyId}`);
+    }
   };
 
   const CssTextField = {
@@ -87,6 +116,15 @@ function MultiPlayerStart() {
 
   return (
     <div className={styles.main}>
+      {error && (
+        <Alert
+          sx={{ position: "absolute", top: "10px", right: "10px" }}
+          variant="filled"
+          severity="error"
+        >
+          {error}
+        </Alert>
+      )}
       <div className={styles.menuDiv}>
         <PpIcon className={styles.ppIcon} />
         <TextField
@@ -109,55 +147,62 @@ function MultiPlayerStart() {
         <div className={styles.buttons}>
           <button
             className={styles.button}
-            onClick={createLobby}
+            onClick={redirectLobbyId ? redirectLobby : createLobby}
             disabled={showError}
           >
-            {t("price_guesser.create_lobby")}
+            {redirectLobbyId
+              ? t("price_guesser.join_lobby")
+              : t("price_guesser.create_lobby")}
           </button>
-          <div
-            className={
-              styles.joinDiv + " " + (showLoginInput && styles.joinDivShow)
-            }
-          >
-            <TextField
-              sx={{
-                ...CssTextField,
-                "& .MuiInputBase-root, & .MuiInputBase-input": {
-                  height: "41.5px",
-                  paddingBottom: "0",
-                  paddingTop: "0",
-                },
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-                "& .MuiInputLabel-root:not(.Mui-focused, .MuiFormLabel-filled)":
-                  {
-                    transform: "translate(14px,10px) scale(1)",
-                    WebkitTransform: "translate(14px,10px) scale(1)",
-                  },
-              }}
-              value={joinId}
-              onChange={(e) => {
-                setJoinId(e.target.value);
-              }}
-              helperText={showJoinError ? "This lobby doesn't exist." : ""}
-              fullWidth
-              label="Lobby ID"
-            />
-            <button
-              className={styles.button}
-              onClick={
-                showLoginInput
-                  ? joinLobby
-                  : () => {
-                      setShowLoginInput(true);
-                    }
+          {!redirectLobbyId && (
+            <div
+              className={
+                styles.joinDiv + " " + (showLoginInput && styles.joinDivShow)
               }
-              disabled={showError}
             >
-              {showLoginInput ? "->" : t("price_guesser.join_lobby")}
-            </button>
-          </div>
+              <TextField
+                sx={{
+                  ...CssTextField,
+                  "& .MuiInputBase-root, & .MuiInputBase-input": {
+                    height: "41.5px",
+                    paddingBottom: "0",
+                    paddingTop: "0",
+                  },
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                  "& .MuiInputLabel-root:not(.Mui-focused, .MuiFormLabel-filled)":
+                    {
+                      transform: "translate(14px,10px) scale(1)",
+                      WebkitTransform: "translate(14px,10px) scale(1)",
+                    },
+                }}
+                value={joinId}
+                onChange={(e) => {
+                  setJoinId(e.target.value);
+                }}
+                helperText={showJoinError ? "This lobby doesn't exist." : ""}
+                fullWidth
+                label="Lobby ID"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") joinLobby();
+                }}
+              />
+              <button
+                className={styles.button}
+                onClick={
+                  showLoginInput
+                    ? joinLobby
+                    : () => {
+                        setShowLoginInput(true);
+                      }
+                }
+                disabled={showError}
+              >
+                {showLoginInput ? "->" : t("price_guesser.join_lobby")}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

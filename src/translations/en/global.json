@@ -56,5 +56,9 @@
     "wait_for_the_next_round": "Next round starting soon...",
     "match_finished": "Match finished! Sending you back to the lobby...",
     "round": "Round"
+  },
+  "errors": {
+    "this_lobby_not_exist": "This lobby does not exist.",
+    "username_already_exists": "Username already exists."
   }
 }

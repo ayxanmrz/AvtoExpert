@@ -295,6 +295,11 @@
   font-size: 16px;
   font-weight: 500;
   color: rgb(17, 24, 39);
+  display: flex;
+  gap: 5px;
+}
+.resultTitle span {
+  font-variant-numeric: tabular-nums;
 }
 
 .roundCounter {
@@ -308,4 +313,19 @@
   z-index: 999999;
   color: whitesmoke;
   font-weight: 600;
+}
+
+@media only screen and (max-width: 750px) {
+  .gameContainer {
+    grid-template-columns: 1fr;
+  }
+  .container {
+    padding: 0;
+  }
+  .mainSide {
+    padding: 10px 0;
+  }
+  .resultsSide {
+    padding: 10px 0;
+  }
 }

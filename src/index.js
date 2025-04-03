@@ -10,9 +10,11 @@ import global_ru from "./translations/ru/global.json";
 import i18next from "i18next";
 import { I18nextProvider } from "react-i18next";
 
+let langSelected = localStorage.getItem("lang");
+
 i18next.init({
   interpolation: { escapevalue: false },
-  lng: "az",
+  lng: ["az", "en", "ru"].includes(langSelected) ? langSelected : "az",
   resources: {
     en: {
       global: global_en,

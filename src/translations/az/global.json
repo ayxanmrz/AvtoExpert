@@ -56,5 +56,9 @@
     "wait_for_the_next_round": "Növbəti tur tezliklə başlayacaq...",
     "match_finished": "Oyun bitdi! Sizi lobbiyə qaytarırıq...",
     "round": "Tur"
+  },
+  "errors": {
+    "this_lobby_not_exist": "Bu lobbi mövcud deyil.",
+    "username_already_exists": "İstifadəçi adı artıq mövcuddur."
   }
 }

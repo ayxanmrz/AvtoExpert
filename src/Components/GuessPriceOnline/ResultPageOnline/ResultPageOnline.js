@@ -4,6 +4,34 @@ import styles from "./ResultPageOnline.module.css";
 function ResultPageOnline(props) {
   const [t, i18n] = useTranslation("global");
 
+  const scoreBackgrounds = [styles.firstPlace, styles.second];
+
+  const getSpanColor = (score) => {
+    if (score > 850) {
+      return styles.greenSpan;
+    } else if (score > 500) {
+      return styles.yellowSpan;
+    } else {
+      return styles.redSpan;
+    }
+  };
+
+  const getScoreBackground = (index) => {
+    if (index === 0) {
+      return styles.firstPlace;
+    } else if (index === 1) {
+      return styles.secondPlace;
+    } else if (index === 2) {
+      return styles.thirdPlace;
+    } else {
+      return styles.normalBackground;
+    }
+  };
+
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   return (
     <div className={styles.main}>
       <div>
@@ -22,6 +50,35 @@ function ResultPageOnline(props) {
             {props.score}
           </span>
         </p>
+
+        <div className={styles.resultsSideContainer}>
+          <div className={styles.resultDivs}>
+            {props.lastScores
+              .sort((a, b) => b.score - a.score)
+              .map((result, index) => (
+                <div
+                  key={index}
+                  className={`${styles.resultDiv} ${getScoreBackground(index)}`}
+                >
+                  <span className={styles.resultTitle}>{result.username}</span>
+                  <div className={styles.pointsDiv}>
+                    <span className={styles.priceResultText}>
+                      &#x20BC; {numberWithCommas(result.priceGuess)}
+                    </span>
+                    <span className={styles.scoreHolderSpan}>
+                      <span
+                        className={
+                          styles.scoreSpan + " " + getSpanColor(result.score)
+                        }
+                      >
+                        {result.score}
+                      </span>
+                    </span>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
       </div>
 
       <button

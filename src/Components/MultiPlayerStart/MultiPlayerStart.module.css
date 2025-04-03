@@ -1,12 +1,13 @@
 .main {
-  height: calc(100dvh - 108px);
+  flex-grow: 1;
   width: 100%;
   background-color: rgb(243, 244, 246);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 70px 20px;
   box-sizing: border-box;
+  position: relative;
 }
 
 .menuDiv {

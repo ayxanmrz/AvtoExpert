@@ -81,10 +81,21 @@ function GuessPriceOnline(props) {
   const hanlePlusMinusButtons = (amount) => {
     if (!props.isSubmitted) {
       if (amount > 0) {
-        props.setPriceGuess((prev) => prev + amount);
+        props.setPriceGuess((prev) =>
+          prev + amount > 10_000_000 ? 10_000_000 : prev + amount
+        );
       } else {
         props.setPriceGuess((prev) => (prev + amount >= 0 ? prev + amount : 0));
       }
+    }
+  };
+
+  const handlePriceGuessChange = (e) => {
+    let value = Number(e.target.value.replaceAll(",", ""));
+    if (value > 10_000_000) {
+      props.setPriceGuess(10_000_000);
+    } else {
+      props.setPriceGuess(value);
     }
   };
 
@@ -111,6 +122,7 @@ function GuessPriceOnline(props) {
                   spanColor={getSpanColor(
                     calculateScore(props.currentCar.price, props.priceGuess)
                   )}
+                  lastScores={props.lastScores}
                 />
               )}
               <div
@@ -200,11 +212,7 @@ function GuessPriceOnline(props) {
                           onPaste={(e) => {
                             e.preventDefault();
                           }}
-                          onChange={(e) => {
-                            props.setPriceGuess(
-                              Number(e.target.value.replaceAll(",", ""))
-                            );
-                          }}
+                          onChange={handlePriceGuessChange}
                           className={styles.priceInput}
                           disabled={props.isSubmitted}
                         ></input>
@@ -289,20 +297,22 @@ function GuessPriceOnline(props) {
                   </span>
                 </div>
                 <div className={styles.resultDivs}>
-                  {props.results.map((result, index) => (
-                    <div key={index} className={styles.resultDiv}>
-                      <span className={styles.resultTitle}>
-                        {result.username}
-                      </span>
-                      <span
-                        className={
-                          styles.scoreSpan + " " + getSpanColor(result.score)
-                        }
-                      >
-                        {result.score}
-                      </span>
-                    </div>
-                  ))}
+                  {props.results
+                    .sort((a, b) => b.score - a.score)
+                    .map((result, index) => (
+                      <div key={index} className={styles.resultDiv}>
+                        <span className={styles.resultTitle}>
+                          <span>{index + 1}.</span> {result.username}
+                        </span>
+                        <span
+                          className={
+                            styles.scoreSpan + " " + getSpanColor(result.score)
+                          }
+                        >
+                          {result.score}
+                        </span>
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>

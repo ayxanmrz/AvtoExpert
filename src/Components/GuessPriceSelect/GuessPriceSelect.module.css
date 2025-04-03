@@ -1,6 +1,6 @@
 .main {
   background-color: rgb(243, 244, 246);
-  height: calc(100% - 108px);
+  flex-grow: 1;
   display: flex;
   align-items: center;
   justify-content: center;

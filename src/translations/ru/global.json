@@ -55,5 +55,9 @@
     "wait_for_the_next_round": "Следующий раунд скоро начнётся...",
     "match_finished": "Матч завершён! Возвращаем вас в лобби...",
     "round": "Раунд"
+  },
+  "errors": {
+    "this_lobby_not_exist": "Это лобби не существует.",
+    "username_already_exists": "Имя пользователя уже существует."
   }
 }

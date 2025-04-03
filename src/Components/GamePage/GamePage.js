@@ -41,6 +41,8 @@ function GamePage() {
   const [totalNumberOfCars, setTotalNumberOfCars] = useState(0);
   const [currentRoundNumber, setCurrentRoundNumber] = useState(0);
 
+  const [lastScores, setLastScores] = useState([]);
+
   const [t, i18n] = useTranslation("global");
   let navigate = useNavigate();
 
@@ -60,7 +62,19 @@ function GamePage() {
         console.log("Lobby param change status: " + response.status);
       });
     } else {
-      e.preventDefault();
+      if (e.target.value < 5) {
+        let newParams = { ...lobbyParams, roundTime: 5 };
+        setLobbyParams(newParams);
+        socket.emit("lobby-param-change", lobbyId, newParams, (response) => {
+          console.log("Lobby param change status: " + response.status);
+        });
+      } else if (e.target.value > 60) {
+        let newParams = { ...lobbyParams, roundTime: 60 };
+        setLobbyParams(newParams);
+        socket.emit("lobby-param-change", lobbyId, newParams, (response) => {
+          console.log("Lobby param change status: " + response.status);
+        });
+      }
     }
   };
 
@@ -76,7 +90,19 @@ function GamePage() {
         console.log("Lobby param change status: " + response.status);
       });
     } else {
-      e.preventDefault();
+      if (e.target.value < 3) {
+        let newParams = { ...lobbyParams, totalRounds: 3 };
+        setLobbyParams(newParams);
+        socket.emit("lobby-param-change", lobbyId, newParams, (response) => {
+          console.log("Lobby param change status: " + response.status);
+        });
+      } else if (e.target.value > 30) {
+        let newParams = { ...lobbyParams, totalRounds: 30 };
+        setLobbyParams(newParams);
+        socket.emit("lobby-param-change", lobbyId, newParams, (response) => {
+          console.log("Lobby param change status: " + response.status);
+        });
+      }
     }
   };
 
@@ -100,7 +126,10 @@ function GamePage() {
   };
 
   const play = (sound) => {
-    new Audio(sound).play();
+    const audio = new Audio(sound);
+    audio.play().catch((err) => {
+      console.error("Audio play failed:", err);
+    });
   };
 
   const playSoundAccScore = (score) => {
@@ -122,7 +151,16 @@ function GamePage() {
 
   useEffect(() => {
     if (!username) {
-      navigate("/guess-the-price/multiplayer"); // Redirect if no username
+      socket.emit("check-lobby", lobbyId, (response) => {
+        console.log(response.status);
+        if (response.status) {
+          navigate("/guess-the-price/multiplayer" + "?redirect=" + lobbyId);
+        } else {
+          navigate("/guess-the-price/multiplayer/", {
+            state: { err: "this_lobby_not_exist" },
+          });
+        }
+      });
       return;
     }
 
@@ -132,6 +170,17 @@ function GamePage() {
         if (response.status) {
           setLobbyParams(response.lobby);
           console.log(response.lobby);
+        } else {
+          if (response.err === "username_already_exists") {
+            navigate("/guess-the-price/multiplayer" + "?redirect=" + lobbyId, {
+              state: { err: response.err },
+            });
+          } else {
+            navigate("/guess-the-price/multiplayer", {
+              state: { err: response.err },
+            });
+          }
+          return;
         }
       });
       socket?.on("player-joined", ({ players }) => setPlayers(players));
@@ -157,10 +206,11 @@ function GamePage() {
           setLobbyParams((prev) => ({ ...prev, host }));
         }
       });
-      socket?.on("round-ended", ({ round, players }) => {
+      socket?.on("round-ended", ({ round, players, lastScores }) => {
         console.log(`Round ${round} ended`);
         setShowResult(true);
         setPlayers(players);
+        setLastScores(lastScores);
         playSoundAccScore(lastScore);
       });
       socket?.on("game-ended", () => {
@@ -172,7 +222,16 @@ function GamePage() {
       });
 
       return () => {
-        socket.disconnect();
+        // socket.disconnect();
+        socket.off("player-joined");
+        socket.off("lobby-param-changed");
+        socket.off("loading");
+        socket.off("game-started");
+        socket.off("game-error");
+        socket.off("player-left");
+        socket.off("round-ended");
+        socket.off("game-ended");
+        socket.emit("player-left");
       };
     }
   }, [socket, lobbyId, username]);
@@ -242,6 +301,7 @@ function GamePage() {
             setCurrentImageIndex={setCurrentImageIndex}
             totalNumberOfCars={totalNumberOfCars}
             currentRoundNumber={currentRoundNumber}
+            lastScores={lastScores}
           />
         </>
       )}

@@ -2,8 +2,7 @@
   background-color: rgb(243, 244, 246);
   display: flex;
   justify-content: center;
-  /* align-items: center; */
-  min-height: calc(100dvh - 108px);
+  flex-grow: 1;
   overflow: scroll;
   padding: 10px 20px;
   box-sizing: border-box;

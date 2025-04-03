@@ -3,7 +3,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: calc(100dvh - 108px);
+  /* min-height: calc(100dvh - 108px); */
+  flex-grow: 1;
   overflow: scroll;
   padding: 10px 20px;
   box-sizing: border-box;
@@ -180,4 +181,25 @@
 .copyButton:disabled {
   background-color: #d99611;
   cursor: not-allowed;
+}
+
+@media only screen and (max-width: 658px) {
+  .lobbyDiv {
+    grid-template-columns: 1fr;
+  }
+  .lobbyInfoSide {
+    border: 1px solid rgb(229, 231, 235);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .playersSideContainer {
+    border: 0 !important;
+    border-radius: 0;
+  }
+  .playersSide {
+    border: 1px solid rgb(229, 231, 235);
+    border-radius: 12px;
+    overflow: hidden;
+  }
 }
