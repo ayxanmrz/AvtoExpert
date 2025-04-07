@@ -43,6 +43,8 @@ function GamePage() {
 
   const [lastScores, setLastScores] = useState([]);
 
+  const [loadingNextRound, setLoadingNextRound] = useState(false);
+
   const [t, i18n] = useTranslation("global");
   let navigate = useNavigate();
 
@@ -169,6 +171,12 @@ function GamePage() {
         console.log(response.status);
         if (response.status) {
           setLobbyParams(response.lobby);
+          setLoading(response.lobby.isLoading);
+          if (response.lobby.currentRound > 0) {
+            setLoadingNextRound(true);
+            setLoading(true);
+            setTotalNumberOfCars(response.lobby.totalRounds);
+          }
           console.log(response.lobby);
         } else {
           if (response.err === "username_already_exists") {
@@ -219,6 +227,8 @@ function GamePage() {
         setShowResult(false);
         setLastScore(0);
         setCurrentCar(null);
+        setLoading(false);
+        setLoadingNextRound(false);
       });
 
       return () => {
@@ -240,6 +250,12 @@ function GamePage() {
     socket?.on("round-started", ({ round, currentCar, startTime }) => {
       console.log(`Round ${round} started`);
       console.log(`Car ${round}: ${currentCar}`);
+
+      if (loadingNextRound) {
+        setLoadingNextRound(false);
+        setLoading(false);
+        setCurrentStatus("game");
+      }
 
       setCurrentCar(currentCar);
       setShowResult(false);
@@ -266,7 +282,7 @@ function GamePage() {
     });
 
     return () => socket?.off("round-started");
-  }, [lobbyParams]);
+  }, [socket, lobbyParams, loadingNextRound]);
   return (
     // <>
     //   LobbyId: {lobbyId}, Socket: {socket?.id}
@@ -314,7 +330,7 @@ function GamePage() {
           {error}
         </Alert>
       )}
-      {loading && <LoadingPage />}
+      {loading && <LoadingPage isLoadingNextRound={loadingNextRound} />}
       {currentStatus === "lobby" && !loading && (
         <div className={styles.lobbyDiv}>
           <div className={styles.lobbyInfoSide}>

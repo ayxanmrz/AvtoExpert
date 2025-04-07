@@ -70,7 +70,9 @@ function MultiPlayerStart() {
           navigate("/guess-the-price/multiplayer/" + joinId);
         } else {
           setShowJoinError(true);
-          setError(t("errors." + response.err));
+          if (response.err) {
+            setError(t("errors." + response.err));
+          }
         }
       });
     }
