@@ -27,7 +27,7 @@ function GuessPrice() {
   const [showResults, setShowResults] = useState(false);
 
   const [priceGuess, setPriceGuess] = useState(0);
-  const API_URL = "http://localhost:4000/get-random-cars";
+  const API_URL = process.env.REACT_APP_SERVER_API;
 
   const [results, setResults] = useState([]);
 
@@ -61,7 +61,6 @@ function GuessPrice() {
     if (allowedKeys.includes(e.keyCode)) {
       return;
     }
-    console.log(e.keyCode);
     if (e.keyCode === 189 || e.keyCode === 69 || e.key.isNaN) {
       e.preventDefault();
     }

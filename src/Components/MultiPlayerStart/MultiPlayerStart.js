@@ -34,8 +34,6 @@ function MultiPlayerStart() {
   useEffect(() => {
     if (!location) return;
 
-    console.log(location);
-
     if (location.state?.err) {
       setError(t("errors." + location.state.err));
     }
@@ -45,7 +43,7 @@ function MultiPlayerStart() {
     if (!socket) return;
 
     socket?.on("lobby-created", ({ lobbyId }) => {
-      navigate("/guess-the-price/multiplayer/" + lobbyId);
+      navigate("/guess/multiplayer/" + lobbyId);
     });
 
     // return () => socket?.disconnect();
@@ -64,10 +62,9 @@ function MultiPlayerStart() {
     if (username.trim().length > 3) {
       localStorage.setItem("username", username);
       socket.emit("check-lobby", joinId, (response) => {
-        console.log(response.status);
         if (response.status) {
           setShowJoinError(false);
-          navigate("/guess-the-price/multiplayer/" + joinId);
+          navigate("/guess/multiplayer/" + joinId);
         } else {
           setShowJoinError(true);
           if (response.err) {
@@ -81,7 +78,7 @@ function MultiPlayerStart() {
   const redirectLobby = () => {
     if (username.trim().length > 3) {
       localStorage.setItem("username", username);
-      navigate(`/guess-the-price/multiplayer/${redirectLobbyId}`);
+      navigate(`/guess/multiplayer/${redirectLobbyId}`);
     }
   };
 

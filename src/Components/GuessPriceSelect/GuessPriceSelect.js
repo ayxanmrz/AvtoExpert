@@ -9,10 +9,10 @@ function GuessPriceSelect() {
   let navigate = useNavigate();
 
   const handleSinglePlayer = () => {
-    navigate("/guess-the-price/singleplayer");
+    navigate("/guess/singleplayer");
   };
   const handleMultiPlayer = () => {
-    navigate("/guess-the-price/multiplayer");
+    navigate("/guess/multiplayer");
   };
 
   return (

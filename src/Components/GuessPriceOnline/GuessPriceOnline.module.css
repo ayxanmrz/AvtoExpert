@@ -6,7 +6,7 @@
   /* align-items: center; */
   min-height: calc(100dvh - 108px);
   overflow: scroll;
-  padding: 10px 20px;
+  padding: 10px 0px;
   box-sizing: border-box;
 }
 
@@ -310,7 +310,7 @@
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 999999px;
   padding: 5px 10px;
-  z-index: 999999;
+  z-index: 999;
   color: whitesmoke;
   font-weight: 600;
 }

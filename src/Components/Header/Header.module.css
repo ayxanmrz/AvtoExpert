@@ -68,11 +68,11 @@
 /* Small Desktop */
 @media only screen and (max-width: 726px) {
   .main a {
-    font-size: 12px;
+    font-size: 13px;
   }
   .buttons ul {
     margin: 5px 0;
-    gap: 15px;
+    gap: 10px;
   }
   .logoDiv img {
     height: 50px;

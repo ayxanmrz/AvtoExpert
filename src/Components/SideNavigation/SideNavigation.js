@@ -45,9 +45,9 @@ function SideNavigation(props) {
         <li>
           {" "}
           <Link
-            to="/guess-the-price"
+            to="/guess"
             className={
-              location.pathname.startsWith("/guess-the-price")
+              location.pathname.startsWith("/guess")
                 ? styles.activePath
                 : undefined
             }

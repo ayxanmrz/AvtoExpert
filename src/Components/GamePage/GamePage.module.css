@@ -16,6 +16,8 @@
   width: 100%;
   grid-template-columns: 4fr 6fr;
   max-width: 1000px;
+  box-sizing: border-box;
+  padding: 0 10px;
 }
 
 .lobbyInfoSide {
@@ -183,9 +185,16 @@
   cursor: not-allowed;
 }
 
+@media only screen and (max-width: 750px) {
+  .main {
+    padding: 10px 10px;
+  }
+}
+
 @media only screen and (max-width: 658px) {
   .lobbyDiv {
     grid-template-columns: 1fr;
+    padding: 0;
   }
   .lobbyInfoSide {
     border: 1px solid rgb(229, 231, 235);

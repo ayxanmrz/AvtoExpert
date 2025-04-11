@@ -57,19 +57,10 @@ function App() {
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/compare" element={<CompareCars />} />
-          <Route path="/guess-the-price" element={<GuessPriceSelect />} />
-          <Route
-            path="/guess-the-price/singleplayer"
-            element={<GuessPrice />}
-          />
-          <Route
-            path="/guess-the-price/multiplayer"
-            element={<MultiPlayerStart />}
-          />
-          <Route
-            path="/guess-the-price/multiplayer/:lobbyId"
-            element={<GamePage />}
-          />
+          <Route path="/guess" element={<GuessPriceSelect />} />
+          <Route path="/guess/singleplayer" element={<GuessPrice />} />
+          <Route path="/guess/multiplayer" element={<MultiPlayerStart />} />
+          <Route path="/guess/multiplayer/:lobbyId" element={<GamePage />} />
         </Routes>
         {/* </div> */}
       </SocketProvider>

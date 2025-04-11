@@ -10,7 +10,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (!socket) {
-      const newSocket = io("http://192.168.31.74:8000", {
+      const newSocket = io(process.env.REACT_APP_SOCKET_API, {
         reconnection: true, // Enable automatic reconnection
         reconnectionAttempts: 5, // Retry up to 5 times
         reconnectionDelay: 2000, // Wait 2 seconds before retrying
@@ -35,7 +35,7 @@ export const SocketProvider = ({ children }) => {
 
   // If socket is null, try creating it again
   if (!socket) {
-    setSocket(io("http://192.168.31.74:8000"));
+    setSocket(io(process.env.REACT_APP_SOCKET_API));
   }
 
   return (

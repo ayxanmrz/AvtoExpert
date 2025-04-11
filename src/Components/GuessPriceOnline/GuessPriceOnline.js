@@ -26,7 +26,6 @@ function GuessPriceOnline(props) {
     if (allowedKeys.includes(e.keyCode)) {
       return;
     }
-    console.log(e.keyCode);
     if (e.keyCode === 189 || e.keyCode === 69 || e.key.isNaN) {
       e.preventDefault();
     }
@@ -99,10 +98,6 @@ function GuessPriceOnline(props) {
     }
   };
 
-  useEffect(() => {
-    console.log(props.currentCar);
-  }, [props.currentCar]);
-
   return (
     <div className={styles.container}>
       {props.currentCar && (
@@ -118,9 +113,9 @@ function GuessPriceOnline(props) {
                 <ResultPageOnline
                   score={props.lastScore}
                   isLast={props.isLast}
-                  price={numberWithCommas(props.currentCar.price)}
+                  price={numberWithCommas(props.lastPrice)}
                   spanColor={getSpanColor(
-                    calculateScore(props.currentCar.price, props.priceGuess)
+                    calculateScore(props.lastPrice, props.priceGuess)
                   )}
                   lastScores={props.lastScores}
                 />

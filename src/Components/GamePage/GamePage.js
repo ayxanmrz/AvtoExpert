@@ -42,6 +42,7 @@ function GamePage() {
   const [currentRoundNumber, setCurrentRoundNumber] = useState(0);
 
   const [lastScores, setLastScores] = useState([]);
+  const [lastPrice, setLastPrice] = useState(0);
 
   const [loadingNextRound, setLoadingNextRound] = useState(false);
 
@@ -60,22 +61,16 @@ function GamePage() {
     ) {
       let newParams = { ...lobbyParams, roundTime: e.target.value };
       setLobbyParams(newParams);
-      socket.emit("lobby-param-change", lobbyId, newParams, (response) => {
-        console.log("Lobby param change status: " + response.status);
-      });
+      socket.emit("lobby-param-change", lobbyId, newParams, (response) => {});
     } else {
       if (e.target.value < 5) {
         let newParams = { ...lobbyParams, roundTime: 5 };
         setLobbyParams(newParams);
-        socket.emit("lobby-param-change", lobbyId, newParams, (response) => {
-          console.log("Lobby param change status: " + response.status);
-        });
+        socket.emit("lobby-param-change", lobbyId, newParams, (response) => {});
       } else if (e.target.value > 60) {
         let newParams = { ...lobbyParams, roundTime: 60 };
         setLobbyParams(newParams);
-        socket.emit("lobby-param-change", lobbyId, newParams, (response) => {
-          console.log("Lobby param change status: " + response.status);
-        });
+        socket.emit("lobby-param-change", lobbyId, newParams, (response) => {});
       }
     }
   };
@@ -88,22 +83,16 @@ function GamePage() {
     ) {
       let newParams = { ...lobbyParams, totalRounds: e.target.value };
       setLobbyParams(newParams);
-      socket.emit("lobby-param-change", lobbyId, newParams, (response) => {
-        console.log("Lobby param change status: " + response.status);
-      });
+      socket.emit("lobby-param-change", lobbyId, newParams, (response) => {});
     } else {
       if (e.target.value < 3) {
         let newParams = { ...lobbyParams, totalRounds: 3 };
         setLobbyParams(newParams);
-        socket.emit("lobby-param-change", lobbyId, newParams, (response) => {
-          console.log("Lobby param change status: " + response.status);
-        });
+        socket.emit("lobby-param-change", lobbyId, newParams, (response) => {});
       } else if (e.target.value > 30) {
         let newParams = { ...lobbyParams, totalRounds: 30 };
         setLobbyParams(newParams);
-        socket.emit("lobby-param-change", lobbyId, newParams, (response) => {
-          console.log("Lobby param change status: " + response.status);
-        });
+        socket.emit("lobby-param-change", lobbyId, newParams, (response) => {});
       }
     }
   };
@@ -111,14 +100,10 @@ function GamePage() {
   const handleStartGame = () => {
     if (socket?.id === lobbyParams?.host && currentStatus === "lobby") {
       socket.emit("start-game", lobbyId);
-      console.log("Start Called");
-    } else {
-      console.log("Start Not Called");
     }
   };
 
   const submitCar = (priceGuess) => {
-    console.log(isSubmitted);
     if (!isSubmitted) {
       socket.emit("guess-price", lobbyId, priceGuess, (callback) => {
         setLastScore(callback.score);
@@ -144,21 +129,18 @@ function GamePage() {
     }
   };
 
-  useEffect(() => {
-    console.log("---------------------");
-    console.log(lobbyParams);
-    console.log(players);
-    console.log("---------------------");
-  }, [lobbyParams, players]);
+  const preloadImage = (url) => {
+    const img = new Image();
+    img.src = url;
+  };
 
   useEffect(() => {
     if (!username) {
       socket.emit("check-lobby", lobbyId, (response) => {
-        console.log(response.status);
         if (response.status) {
-          navigate("/guess-the-price/multiplayer" + "?redirect=" + lobbyId);
+          navigate("/guess/multiplayer" + "?redirect=" + lobbyId);
         } else {
-          navigate("/guess-the-price/multiplayer/", {
+          navigate("/guess/multiplayer/", {
             state: { err: "this_lobby_not_exist" },
           });
         }
@@ -168,7 +150,6 @@ function GamePage() {
 
     if (socket) {
       socket.emit("join-lobby", lobbyId, username, (response) => {
-        console.log(response.status);
         if (response.status) {
           setLobbyParams(response.lobby);
           setLoading(response.lobby.isLoading);
@@ -177,14 +158,13 @@ function GamePage() {
             setLoading(true);
             setTotalNumberOfCars(response.lobby.totalRounds);
           }
-          console.log(response.lobby);
         } else {
           if (response.err === "username_already_exists") {
-            navigate("/guess-the-price/multiplayer" + "?redirect=" + lobbyId, {
+            navigate("/guess/multiplayer" + "?redirect=" + lobbyId, {
               state: { err: response.err },
             });
           } else {
-            navigate("/guess-the-price/multiplayer", {
+            navigate("/guess/multiplayer", {
               state: { err: response.err },
             });
           }
@@ -214,15 +194,23 @@ function GamePage() {
           setLobbyParams((prev) => ({ ...prev, host }));
         }
       });
-      socket?.on("round-ended", ({ round, players, lastScores }) => {
-        console.log(`Round ${round} ended`);
-        setShowResult(true);
-        setPlayers(players);
-        setLastScores(lastScores);
-        playSoundAccScore(lastScore);
-      });
+      socket?.on(
+        "round-ended",
+        ({ round, players, lastScores, lastPrice, nextImage }) => {
+          setShowResult(true);
+          setPlayers(players);
+          setLastScores(lastScores);
+          setLastPrice(lastPrice);
+          playSoundAccScore(
+            lastScores.find((player) => player.socketId === socket.id).score ||
+              0
+          );
+          if (nextImage) {
+            preloadImage(nextImage);
+          }
+        }
+      );
       socket?.on("game-ended", () => {
-        console.log("Game over");
         setCurrentStatus("lobby"); // Return to lobby
         setShowResult(false);
         setLastScore(0);
@@ -248,9 +236,6 @@ function GamePage() {
 
   useEffect(() => {
     socket?.on("round-started", ({ round, currentCar, startTime }) => {
-      console.log(`Round ${round} started`);
-      console.log(`Car ${round}: ${currentCar}`);
-
       if (loadingNextRound) {
         setLoadingNextRound(false);
         setLoading(false);
@@ -283,6 +268,7 @@ function GamePage() {
 
     return () => socket?.off("round-started");
   }, [socket, lobbyParams, loadingNextRound]);
+
   return (
     // <>
     //   LobbyId: {lobbyId}, Socket: {socket?.id}
@@ -318,6 +304,7 @@ function GamePage() {
             totalNumberOfCars={totalNumberOfCars}
             currentRoundNumber={currentRoundNumber}
             lastScores={lastScores}
+            lastPrice={lastPrice}
           />
         </>
       )}
