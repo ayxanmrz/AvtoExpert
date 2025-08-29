@@ -29,11 +29,12 @@
       "hidrogen": "Водород"
     },
     "transmission_types": {
-      "avtomat": "Автомат",
-      "variator": "Вариатор",
-      "mexaniki": "Механика",
-      "robot": "Робот",
-      "reduktor": "Редуктор"
+      "avtomat (dht)": "Автомат (DHT)",
+      "avtomat (at)": "Автомат (AT)",
+      "avtomat (robot)": "Автомат (Робот)",
+      "avtomat (reduktor)": "Автомат (Редуктор)",
+      "mexaniki (mt)": "Механика (MT)",
+      "avtomat (variator)": "Автомат (Вариатор)"
     },
     "round_result": "Результат раунда",
     "actual_price": "Фактическая цена:",
@@ -42,8 +43,9 @@
     "results": "Результаты",
     "start_again": "Играть снова",
     "single_player": "Одиночная игра",
-    "multi_player": "Многопользовательская игра",
+    "multi_player": "Мультиплеер",
     "players": "Игроки",
+    "username": "Имя пользователя",
     "lobby_info": "Информация о лобби",
     "copy_invite_link": "Копировать ссылку приглашения",
     "round_duration": "Длительность раунда",
@@ -58,6 +60,8 @@
   },
   "errors": {
     "this_lobby_not_exist": "Это лобби не существует.",
-    "username_already_exists": "Имя пользователя уже существует."
+    "username_already_exists": "Имя пользователя уже существует.",
+    "username_error": "Имя пользователя должно содержать не менее 4 символов.",
+    "under_development": "Мы работаем над этой страницей. Скоро будет доступна!"
   }
 }

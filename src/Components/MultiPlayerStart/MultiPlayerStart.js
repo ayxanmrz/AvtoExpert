@@ -54,7 +54,7 @@ function MultiPlayerStart() {
       localStorage.setItem("username", username);
       socket.emit("create-lobby", {
         roundTime: 10,
-        totalRounds: 3,
+        totalRounds: 10,
       });
     }
   };
@@ -129,17 +129,13 @@ function MultiPlayerStart() {
         <TextField
           sx={CssTextField}
           className={styles.input}
-          label="Username"
+          label={t("price_guesser.username")}
           variant="outlined"
           value={username}
           onChange={(e) => {
             setUsername(e.target.value);
           }}
-          helperText={
-            showError
-              ? "Please enter a valid username. Min. 4 symbols long."
-              : ""
-          }
+          helperText={showError ? t("errors.username_error") : ""}
           error={showError}
           fullWidth
         />
@@ -180,7 +176,9 @@ function MultiPlayerStart() {
                 onChange={(e) => {
                   setJoinId(e.target.value);
                 }}
-                helperText={showJoinError ? "This lobby doesn't exist." : ""}
+                helperText={
+                  showJoinError ? t("errors.this_lobby_not_exist") : ""
+                }
                 fullWidth
                 label="Lobby ID"
                 onKeyDown={(e) => {

@@ -202,7 +202,7 @@ function GamePage() {
           setLastScores(lastScores);
           setLastPrice(lastPrice);
           playSoundAccScore(
-            lastScores.find((player) => player.socketId === socket.id).score ||
+            lastScores.find((player) => player.socketId === socket.id)?.score ||
               0
           );
           if (nextImage) {
@@ -377,7 +377,7 @@ function GamePage() {
                       min={3}
                       max={30}
                       onChange={handleTotalRoundChange}
-                      value={lobbyParams?.totalRounds || 3}
+                      value={lobbyParams?.totalRounds || 10}
                       id="roundNumber"
                       type="number"
                       disabled={socket?.id !== lobbyParams?.host}

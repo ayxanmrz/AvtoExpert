@@ -43,7 +43,7 @@ function GuessPrice() {
       const response = await fetch(API_URL);
       if (!response.ok) throw new Error("Failed to fetch data");
       const data = await response.json();
-      setCars(data);
+      setCars(data.cars);
       setCurrentIndex(0);
     } catch (err) {
       setError(err.message);

@@ -30,11 +30,12 @@
     },
 
     "transmission_types": {
-      "avtomat": "Automatic",
-      "variator": "CVT",
-      "mexaniki": "Manual",
-      "robot": "Automated Manual",
-      "reduktor": "Reducer"
+      "avtomat (dht)": "Automatic (DHT)",
+      "avtomat (at)": "Automatic (AT)",
+      "avtomat (robot)": "Automatic (Robot)",
+      "avtomat (reduktor)": "Automatic (Reducer)",
+      "mexaniki (mt)": "Manual (MT)",
+      "avtomat (variator)": "Automatic (CVT)"
     },
     "round_result": "Round Result",
     "actual_price": "Actual Price:",
@@ -45,6 +46,7 @@
     "single_player": "Single Player",
     "multi_player": "Multiplayer",
     "players": "Players",
+    "username": "Username",
     "lobby_info": "Lobby Information",
     "copy_invite_link": "Copy Invite Link",
     "round_duration": "Round Duration",
@@ -59,6 +61,8 @@
   },
   "errors": {
     "this_lobby_not_exist": "This lobby does not exist.",
-    "username_already_exists": "Username already exists."
+    "username_already_exists": "Username already exists.",
+    "username_error": "Username must be at least 4 characters long.",
+    "under_development": "We're working on this page. Stay tuned!"
   }
 }

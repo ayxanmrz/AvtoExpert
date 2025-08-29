@@ -30,11 +30,12 @@
       "hidrogen": "Hidrogen"
     },
     "transmission_types": {
-      "avtomat": "Avtomat",
-      "variator": "Variator",
-      "mexaniki": "Mexaniki",
-      "robot": "Robot",
-      "reduktor": "Reduktor"
+      "avtomat (dht)": "Avtomat (DHT)",
+      "avtomat (at)": "Avtomat (AT)",
+      "avtomat (robot)": "Avtomat (Robot)",
+      "avtomat (reduktor)": "Avtomat (Reduktor)",
+      "mexaniki (mt)": "Mexaniki (MT)",
+      "avtomat (variator)": "Avtomat (Variator)"
     },
     "round_result": "Turun Nəticəsi",
     "actual_price": "Əsl Qiyməti:",
@@ -45,6 +46,7 @@
     "single_player": "Tək Oyunçu",
     "multi_player": "Çox Oyunçu",
     "players": "Oyunçular",
+    "username": "İstifadəçi Adı",
     "lobby_info": "Lobbi Məlumatları",
     "copy_invite_link": "Dəvət Linkini Kopyala",
     "round_duration": "Turun Müddəti",
@@ -59,6 +61,8 @@
   },
   "errors": {
     "this_lobby_not_exist": "Bu lobbi mövcud deyil.",
-    "username_already_exists": "İstifadəçi adı artıq mövcuddur."
+    "username_already_exists": "İstifadəçi adı artıq mövcuddur.",
+    "username_error": "İstifadəçi adı minimum 4 simvol olmalıdır.",
+    "under_development": "Bu səhifə üzərində işlənilir. Tezliklə istifadədə olacaq!"
   }
 }

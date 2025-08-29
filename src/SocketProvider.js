@@ -13,7 +13,9 @@ export const SocketProvider = ({ children }) => {
       const newSocket = io(process.env.REACT_APP_SOCKET_API, {
         reconnection: true, // Enable automatic reconnection
         reconnectionAttempts: 5, // Retry up to 5 times
-        reconnectionDelay: 2000, // Wait 2 seconds before retrying
+        reconnectionDelay: 2000,
+        transports: ["websocket"],
+        // Wait 2 seconds before retrying
       });
 
       setSocket(newSocket);
