@@ -35,6 +35,10 @@ function GuessPrice() {
     new Audio(sound).play();
   };
 
+  useEffect(() => {
+    document.title = t("price_guesser.single_player") + " | AvtoExpert";
+  }, [t]);
+
   const fetchCars = async () => {
     setLoading(true);
     setError(null);

@@ -3,10 +3,15 @@ import { useTranslation } from "react-i18next";
 import { ReactComponent as SinglePlayerIcon } from "../../images/PriceGuessIcons/singleplayer.svg";
 import { ReactComponent as MultiPlayerIcon } from "../../images/PriceGuessIcons/multiplayer.svg";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function GuessPriceSelect() {
   const [t, i18n] = useTranslation("global");
   let navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = t("header.price_guesser") + " | AvtoExpert";
+  }, [t]);
 
   const handleSinglePlayer = () => {
     navigate("/guess/singleplayer");

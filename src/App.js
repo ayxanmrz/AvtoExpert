@@ -14,13 +14,16 @@ import Drawer from "@mui/material/Drawer";
 import { useState, useEffect } from "react";
 import SideNavigation from "./Components/SideNavigation/SideNavigation";
 import zIndex from "@mui/material/styles/zIndex";
+import { useTranslation } from "react-i18next";
 
 function App() {
+  const [t] = useTranslation("global");
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const toggleDrawer = (newOpen) => () => {
     setOpenDrawer(newOpen);
   };
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 625 && openDrawer) {

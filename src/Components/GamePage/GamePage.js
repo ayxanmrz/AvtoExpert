@@ -174,6 +174,7 @@ function GamePage() {
       socket.emit("join-lobby", lobbyId, username, (response) => {
         if (response.status) {
           setLobbyParams(response.lobby);
+          document.title = `${lobbyId} | AvtoExpert`;
           setLoading(response.lobby.isLoading);
           if (response.lobby.currentRound > 0) {
             setLoadingNextRound(true);
@@ -239,6 +240,7 @@ function GamePage() {
         setCurrentCar(null);
         setLoading(false);
         setLoadingNextRound(false);
+        document.title = `${lobbyId} | AvtoExpert`;
       });
 
       return () => {
@@ -271,6 +273,9 @@ function GamePage() {
       setCurrentImageIndex(0);
       setPriceGuess(0);
       setCurrentRoundNumber(round);
+      document.title = `${lobbyId} - ${t("price_guesser.round")} ${round}/${
+        lobbyParams?.totalRounds
+      } | AvtoExpert`;
 
       const interval = setInterval(() => {
         // use corrected clock

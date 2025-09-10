@@ -32,6 +32,10 @@ function MultiPlayerStart() {
   const [error, setError] = useState();
 
   useEffect(() => {
+    document.title = t("price_guesser.multi_player") + " | AvtoExpert";
+  }, [t]);
+
+  useEffect(() => {
     if (!location) return;
 
     if (location.state?.err) {
