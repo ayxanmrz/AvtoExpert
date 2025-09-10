@@ -49,6 +49,28 @@ function GamePage() {
   const [t, i18n] = useTranslation("global");
   let navigate = useNavigate();
 
+  const [serverOffset, setServerOffset] = useState(0);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const measureOffset = () => {
+      const start = Date.now();
+      socket.emit("get-server-time", (serverNow) => {
+        const rtt = Date.now() - start;
+        const latency = rtt / 2;
+        const offset = serverNow + latency - Date.now();
+        setServerOffset(offset);
+        console.log("Offset updated:", offset, "ms");
+      });
+    };
+
+    // measure now + every 10s
+    measureOffset();
+    const interval = setInterval(measureOffset, 10000);
+    return () => clearInterval(interval);
+  }, [socket]);
+
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
   };
@@ -235,7 +257,7 @@ function GamePage() {
   }, [socket, lobbyId, username]);
 
   useEffect(() => {
-    socket?.on("round-started", ({ round, currentCar, startTime }) => {
+    socket?.on("round-started", ({ round, currentCar, endTime }) => {
       if (loadingNextRound) {
         setLoadingNextRound(false);
         setLoading(false);
@@ -250,24 +272,20 @@ function GamePage() {
       setPriceGuess(0);
       setCurrentRoundNumber(round);
 
-      const endTime = startTime + lobbyParams.roundTime * 1000;
-
-      // Set interval to decrease every 0.2 seconds
       const interval = setInterval(() => {
-        const remaining = Math.max(
-          0,
-          ((endTime - Date.now()) / 1000).toFixed(1)
-        );
+        // use corrected clock
+        const now = Date.now() + serverOffset;
+        const remaining = Math.max(0, ((endTime - now) / 1000).toFixed(1));
         setTimeLeft(remaining);
 
-        if (remaining <= 0) clearInterval(interval); // Stop when it reaches 0
+        if (remaining <= 0) clearInterval(interval);
       }, 100);
 
       return () => clearInterval(interval);
     });
 
     return () => socket?.off("round-started");
-  }, [socket, lobbyParams, loadingNextRound]);
+  }, [socket, lobbyParams, loadingNextRound, serverOffset]);
 
   return (
     // <>
