@@ -65,10 +65,10 @@ function MultiPlayerStart() {
   const joinLobby = () => {
     if (username.trim().length > 3) {
       localStorage.setItem("username", username);
-      socket.emit("check-lobby", joinId, (response) => {
+      socket.emit("check-lobby", joinId.trim().toUpperCase(), (response) => {
         if (response.status) {
           setShowJoinError(false);
-          navigate("/guess/multiplayer/" + joinId);
+          navigate("/guess/multiplayer/" + joinId.trim().toUpperCase());
         } else {
           setShowJoinError(true);
           if (response.err) {
@@ -138,6 +138,11 @@ function MultiPlayerStart() {
           value={username}
           onChange={(e) => {
             setUsername(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              redirectLobbyId ? redirectLobby() : createLobby();
+            }
           }}
           helperText={showError ? t("errors.username_error") : ""}
           error={showError}

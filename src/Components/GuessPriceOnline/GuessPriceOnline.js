@@ -44,6 +44,7 @@ function GuessPriceOnline(props) {
   };
 
   function numberWithCommas(x) {
+    if (!x && x !== 0) return "";
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
@@ -90,11 +91,11 @@ function GuessPriceOnline(props) {
   };
 
   const handlePriceGuessChange = (e) => {
-    let value = Number(e.target.value.replaceAll(",", ""));
+    const value = e.target.value.replace(/[^0-9]/g, "");
     if (value > 10_000_000) {
       props.setPriceGuess(10_000_000);
     } else {
-      props.setPriceGuess(value);
+      props.setPriceGuess(value ? Number(value) : "");
     }
   };
 
@@ -202,15 +203,18 @@ function GuessPriceOnline(props) {
                         <span className={styles.manatSymbol}>&#x20BC;</span>
                         <input
                           value={numberWithCommas(props.priceGuess)}
+                          inputMode="numeric"
                           min={0}
-                          onKeyDown={handleInputChange}
-                          onPaste={(e) => {
-                            e.preventDefault();
-                          }}
                           onChange={handlePriceGuessChange}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault();
+                              submitCar();
+                            }
+                          }}
                           className={styles.priceInput}
                           disabled={props.isSubmitted}
-                        ></input>
+                        />
                         <button
                           disabled={props.priceGuess == 0 || props.isSubmitted}
                           className={styles.priceSubmitButton}

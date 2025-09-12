@@ -83,6 +83,7 @@ function GuessPrice() {
   };
 
   function numberWithCommas(x) {
+    if (!x && x !== 0) return "";
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
@@ -262,18 +263,23 @@ function GuessPrice() {
                         <span className={styles.manatSymbol}>&#x20BC;</span>
                         <input
                           value={numberWithCommas(priceGuess)}
+                          inputMode="numeric"
                           min={0}
-                          onKeyDown={handleInputChange}
-                          onPaste={(e) => {
-                            e.preventDefault();
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault();
+                              submitCar();
+                            }
                           }}
                           onChange={(e) => {
-                            setPriceGuess(
-                              Number(e.target.value.replaceAll(",", ""))
+                            const rawValue = e.target.value.replace(
+                              /[^0-9]/g,
+                              ""
                             );
+                            setPriceGuess(rawValue ? Number(rawValue) : "");
                           }}
                           className={styles.priceInput}
-                        ></input>
+                        />
                         <button
                           disabled={priceGuess == 0}
                           className={styles.priceSubmitButton}

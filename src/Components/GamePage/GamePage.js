@@ -75,53 +75,47 @@ function GamePage() {
     navigator.clipboard.writeText(window.location.href);
   };
 
-  const handleRoundTimeChange = (e) => {
-    if (
-      e.target.value >= 5 &&
-      e.target.value <= 60 &&
-      socket?.id === lobbyParams?.host
-    ) {
-      let newParams = { ...lobbyParams, roundTime: e.target.value };
-      setLobbyParams(newParams);
-      socket.emit("lobby-param-change", lobbyId, newParams, (response) => {});
-    } else {
-      if (e.target.value < 5) {
-        let newParams = { ...lobbyParams, roundTime: 5 };
-        setLobbyParams(newParams);
-        socket.emit("lobby-param-change", lobbyId, newParams, (response) => {});
-      } else if (e.target.value > 60) {
-        let newParams = { ...lobbyParams, roundTime: 60 };
-        setLobbyParams(newParams);
-        socket.emit("lobby-param-change", lobbyId, newParams, (response) => {});
-      }
-    }
+  const sanitize = (s) => {
+    const n = parseInt(String(s).trim(), 10);
+    if (isNaN(n)) return 3;
+    if (n < 3) return 3;
+    if (n > 50) return 50;
+    return n;
   };
 
-  const handleTotalRoundChange = (e) => {
-    if (
-      e.target.value >= 3 &&
-      e.target.value <= 30 &&
-      socket?.id === lobbyParams?.host
-    ) {
-      let newParams = { ...lobbyParams, totalRounds: e.target.value };
-      setLobbyParams(newParams);
-      socket.emit("lobby-param-change", lobbyId, newParams, (response) => {});
-    } else {
-      if (e.target.value < 3) {
-        let newParams = { ...lobbyParams, totalRounds: 3 };
-        setLobbyParams(newParams);
-        socket.emit("lobby-param-change", lobbyId, newParams, (response) => {});
-      } else if (e.target.value > 30) {
-        let newParams = { ...lobbyParams, totalRounds: 30 };
-        setLobbyParams(newParams);
-        socket.emit("lobby-param-change", lobbyId, newParams, (response) => {});
-      }
-    }
+  const handleParamInput = (param, min, max) => (e) => {
+    setLobbyParams((prev) => ({
+      ...prev,
+      [param]: e.target.value, // allow free typing (string)
+    }));
+  };
+
+  const handleParamCommit = (param, min, max) => () => {
+    commitLobbyParam(param, lobbyParams[param], min, max);
+  };
+
+  /**
+   * Commit the typed value:
+   * - clamp it
+   * - update local lobbyParams immediately
+   * - emit to server (with optional ack callback)
+   * Returns the committed numeric value.
+   */
+  const commitLobbyParam = (param, value, min, max) => {
+    const clamped = Math.max(min, Math.min(max, Number(value) || min));
+    const newParams = { ...lobbyParams, [param]: clamped };
+
+    setLobbyParams(newParams);
+    socket?.emit("lobby-param-change", lobbyId, newParams, () => {});
+
+    return clamped;
   };
 
   const handleStartGame = () => {
     if (socket?.id === lobbyParams?.host && currentStatus === "lobby") {
-      socket.emit("start-game", lobbyId);
+      commitLobbyParam("totalRounds", lobbyParams.totalRounds, 3, 50);
+      commitLobbyParam("roundTime", lobbyParams.roundTime, 5, 60);
+      socket.emit("start-game", lobbyId, lobbyParams);
     }
   };
 
@@ -293,19 +287,6 @@ function GamePage() {
   }, [socket, lobbyParams, loadingNextRound, serverOffset]);
 
   return (
-    // <>
-    //   LobbyId: {lobbyId}, Socket: {socket?.id}
-    //   <hr></hr>
-    //   Players:
-    //   <br />{" "}
-    //   {players.length > 0 &&
-    //     players.map((player) => (
-    //       <>
-    //         {player.username + " " + player.socketId}
-    //         <br />
-    //       </>
-    //     ))}
-    // </>
     <div className={styles.main}>
       {currentStatus === "game" && (
         <>
@@ -318,7 +299,11 @@ function GamePage() {
             showResult={showResult}
             results={players}
             lastScore={lastScore}
-            timer={(timeLeft / lobbyParams.roundTime) * 100}
+            timer={
+              lobbyParams?.roundTime
+                ? (timeLeft / lobbyParams.roundTime) * 100
+                : 0
+            }
             isSubmitted={isSubmitted}
             priceGuess={priceGuess}
             setPriceGuess={setPriceGuess}
@@ -383,12 +368,25 @@ function GamePage() {
                       {t("price_guesser.round_duration")}:
                     </label>
                     <input
-                      min={5}
-                      max={60}
-                      value={lobbyParams?.roundTime || 10}
-                      onChange={handleRoundTimeChange}
                       id="roundDuration"
                       type="number"
+                      min={5}
+                      max={60}
+                      inputMode="numeric"
+                      value={lobbyParams?.roundTime ?? ""}
+                      onChange={handleParamInput("roundTime", 5, 60)}
+                      onBlur={handleParamCommit("roundTime", 5, 60)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          commitLobbyParam(
+                            "roundTime",
+                            lobbyParams.roundTime,
+                            5,
+                            60
+                          );
+                        }
+                      }}
                       disabled={socket?.id !== lobbyParams?.host}
                     />
                   </div>
@@ -397,12 +395,25 @@ function GamePage() {
                       {t("price_guesser.number_of_rounds")}:
                     </label>
                     <input
-                      min={3}
-                      max={30}
-                      onChange={handleTotalRoundChange}
-                      value={lobbyParams?.totalRounds || 10}
                       id="roundNumber"
                       type="number"
+                      min={3}
+                      max={50}
+                      inputMode="numeric"
+                      value={lobbyParams?.totalRounds ?? ""}
+                      onChange={handleParamInput("totalRounds", 3, 50)}
+                      onBlur={handleParamCommit("totalRounds", 3, 50)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          commitLobbyParam(
+                            "totalRounds",
+                            lobbyParams.totalRounds,
+                            3,
+                            50
+                          );
+                        }
+                      }}
                       disabled={socket?.id !== lobbyParams?.host}
                     />
                   </div>
