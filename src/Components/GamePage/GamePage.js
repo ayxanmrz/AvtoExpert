@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ReactComponent as PersonSvg } from "../../images/PriceGuessIcons/person.svg";
 import { ReactComponent as SettingsSvg } from "../../images/PriceGuessIcons/settings.svg";
 import { ReactComponent as CrownSvg } from "../../images/PriceGuessIcons/crown.svg";
+import { ReactComponent as BanIcon } from "../../images/PriceGuessIcons/ban.svg";
 import LinkIcon from "@mui/icons-material/Link";
 import { useTranslation } from "react-i18next";
 import LoadingPage from "../LoadingPage/LoadingPage";
@@ -14,6 +15,7 @@ import GuessPriceOnline from "../GuessPriceOnline/GuessPriceOnline";
 import badSound from "../../sounds/bad.mp3";
 import normalSound from "../../sounds/normal.mp3";
 import goodSound from "../../sounds/good.mp3";
+import { toast } from "react-toastify";
 
 function GamePage() {
   const { lobbyId } = useParams();
@@ -75,14 +77,6 @@ function GamePage() {
     navigator.clipboard.writeText(window.location.href);
   };
 
-  const sanitize = (s) => {
-    const n = parseInt(String(s).trim(), 10);
-    if (isNaN(n)) return 3;
-    if (n < 3) return 3;
-    if (n > 50) return 50;
-    return n;
-  };
-
   const handleParamInput = (param, min, max) => (e) => {
     setLobbyParams((prev) => ({
       ...prev,
@@ -133,6 +127,26 @@ function GamePage() {
     audio.play().catch((err) => {
       console.error("Audio play failed:", err);
     });
+  };
+
+  const banPlayer = (socketId) => {
+    if (socket?.id === lobbyParams?.host) {
+      socket.emit("ban-player", lobbyId, socketId, (response) => {
+        if (!response.status) {
+          console.error("Failed to ban player:", response.err);
+        }
+      });
+    }
+  };
+
+  const makePlayerHost = (socketId) => {
+    if (socket?.id === lobbyParams?.host) {
+      socket.emit("make-host", lobbyId, socketId, (response) => {
+        if (!response.status) {
+          console.error("Failed to make player host:", response.err);
+        }
+      });
+    }
   };
 
   const playSoundAccScore = (score) => {
@@ -211,6 +225,29 @@ function GamePage() {
           setLobbyParams((prev) => ({ ...prev, host }));
         }
       });
+
+      socket?.on("you-are-banned", (data) => {
+        navigate("/guess/multiplayer", {
+          state: { err: "you_are_banned", lobbyId: data.lobbyId },
+        });
+      });
+
+      socket?.on("host-changed", (data) => {
+        setLobbyParams((prev) => ({ ...prev, host: data.newHost }));
+        if (data.newHost === socket.id) {
+          toast.info(t("price_guesser.notifications.you_are_host"), {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+      });
+
       socket?.on(
         "round-ended",
         ({ round, players, lastScores, lastPrice, nextImage }) => {
@@ -247,6 +284,8 @@ function GamePage() {
         socket.off("player-left");
         socket.off("round-ended");
         socket.off("game-ended");
+        socket.off("host-changed");
+        socket.off("you-are-banned");
         socket.emit("player-left");
       };
     }
@@ -449,26 +488,73 @@ function GamePage() {
                 <span className={styles.scoreSpan}>{players.length}</span>
               </div>
               <div className={styles.playerDivs}>
-                {players.map((player, index) => (
-                  <div key={index} className={styles.playerDiv}>
-                    <span className={styles.playerTitle}>
-                      {player.username}
-                      {player.socketId === lobbyParams?.host && (
-                        <div
-                          style={{ backgroundColor: "rgb(255, 247, 237)" }}
-                          className={styles.hostSpan}
-                        >
-                          <CrownSvg
-                            width="15px"
-                            height="15px"
-                            fill="rgb(251, 191, 36)"
-                            stroke="rgb(251, 191, 36)"
-                          />
-                        </div>
-                      )}
-                    </span>
-                  </div>
-                ))}
+                {players
+                  .sort((a, b) => {
+                    if (a.socketId === lobbyParams?.host) return -1;
+                    if (b.socketId === lobbyParams?.host) return 1;
+                    return 0;
+                  })
+                  .map((player, index) => (
+                    <div key={index} className={styles.playerDiv}>
+                      <span className={styles.playerTitle}>
+                        <span>
+                          {player.username}
+                          {player.socketId === socket.id && (
+                            <span
+                              style={{ fontStyle: "italic", color: "gray" }}
+                            >
+                              {" "}
+                              ({t("price_guesser.you")})
+                            </span>
+                          )}
+                        </span>
+                        {player.socketId === lobbyParams?.host && (
+                          <>
+                            <div
+                              style={{ backgroundColor: "rgb(255, 247, 237)" }}
+                              className={styles.hostSpan}
+                            >
+                              <CrownSvg
+                                width="15px"
+                                height="15px"
+                                fill="rgb(251, 191, 36)"
+                                stroke="rgb(251, 191, 36)"
+                              />
+                            </div>
+                          </>
+                        )}
+                      </span>
+
+                      {socket?.id === lobbyParams?.host &&
+                        player.socketId !== lobbyParams?.host && (
+                          <div className={styles.hostButtons}>
+                            <button
+                              title={t("price_guesser.ban_player")}
+                              className={styles.hostButton}
+                              onClick={() => banPlayer(player.socketId)}
+                            >
+                              <BanIcon
+                                width="15px"
+                                height="15px"
+                                fill="#fff"
+                              ></BanIcon>
+                            </button>
+                            <button
+                              title={t("price_guesser.make_player_host")}
+                              className={styles.hostButton}
+                              onClick={() => makePlayerHost(player.socketId)}
+                            >
+                              <CrownSvg
+                                width="15px"
+                                height="15px"
+                                fill="#fff"
+                                stroke="#fff"
+                              ></CrownSvg>
+                            </button>
+                          </div>
+                        )}
+                    </div>
+                  ))}
               </div>
             </div>
           </div>

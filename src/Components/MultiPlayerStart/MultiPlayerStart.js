@@ -1,22 +1,20 @@
 import styles from "./MultiPlayerStart.module.css";
 import TextField from "@mui/material/TextField";
-import { styled } from "@mui/material/styles";
 import { ReactComponent as PpIcon } from "../../images/PriceGuessIcons/pp.svg";
 import { useEffect, useState } from "react";
 import { useSocket } from "../../SocketProvider";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import Alert from "@mui/material/Alert";
+import { toast } from "react-toastify";
 
 function MultiPlayerStart() {
-  const [lobbyId, setLobbyId] = useState("");
   const [joinId, setJoinId] = useState("");
   const [username, setUsername] = useState(
     localStorage.getItem("username") || ""
   );
-  const [players, setPlayers] = useState([]);
   const [showLoginInput, setShowLoginInput] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [errorText, setErrorText] = useState("");
   const [showJoinError, setShowJoinError] = useState(false);
 
   const socket = useSocket();
@@ -29,7 +27,18 @@ function MultiPlayerStart() {
   const queryParams = new URLSearchParams(location.search);
   const redirectLobbyId = queryParams.get("redirect");
 
-  const [error, setError] = useState();
+  const showToastError = (error) => {
+    toast.error(error, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
 
   useEffect(() => {
     document.title = t("price_guesser.multi_player") + " | AvtoExpert";
@@ -39,7 +48,7 @@ function MultiPlayerStart() {
     if (!location) return;
 
     if (location.state?.err) {
-      setError(t("errors." + location.state.err));
+      showToastError(t("errors." + location.state.err));
     }
   }, [location, t]);
 
@@ -54,7 +63,7 @@ function MultiPlayerStart() {
   }, [socket]);
 
   const createLobby = () => {
-    if (username.trim().length > 3) {
+    if (username.trim().length > 3 && username.trim().length < 16) {
       localStorage.setItem("username", username);
       socket.emit("create-lobby", {
         roundTime: 10,
@@ -63,7 +72,7 @@ function MultiPlayerStart() {
     }
   };
   const joinLobby = () => {
-    if (username.trim().length > 3) {
+    if (username.trim().length > 3 && username.trim().length < 16) {
       localStorage.setItem("username", username);
       socket.emit("check-lobby", joinId.trim().toUpperCase(), (response) => {
         if (response.status) {
@@ -72,7 +81,7 @@ function MultiPlayerStart() {
         } else {
           setShowJoinError(true);
           if (response.err) {
-            setError(t("errors." + response.err));
+            showToastError(t("errors." + response.err));
           }
         }
       });
@@ -80,7 +89,7 @@ function MultiPlayerStart() {
   };
 
   const redirectLobby = () => {
-    if (username.trim().length > 3) {
+    if (username.trim().length > 3 && username.trim().length < 16) {
       localStorage.setItem("username", username);
       navigate(`/guess/multiplayer/${redirectLobbyId}`);
     }
@@ -110,24 +119,22 @@ function MultiPlayerStart() {
   };
 
   useEffect(() => {
-    if (username.trim().length > 3) {
+    if (username.trim().length > 3 && username.trim().length < 16) {
       setShowError(false);
     } else {
+      if (username.trim().length < 4) {
+        setErrorText(t("errors.username_min_length"));
+      } else if (username.trim().length > 15) {
+        setErrorText(t("errors.username_max_length"));
+      } else {
+        setErrorText("");
+      }
       setShowError(true);
     }
   }, [username]);
 
   return (
     <div className={styles.main}>
-      {error && (
-        <Alert
-          sx={{ position: "absolute", top: "10px", right: "10px" }}
-          variant="filled"
-          severity="error"
-        >
-          {error}
-        </Alert>
-      )}
       <div className={styles.menuDiv}>
         <PpIcon className={styles.ppIcon} />
         <TextField
@@ -144,7 +151,7 @@ function MultiPlayerStart() {
               redirectLobbyId ? redirectLobby() : createLobby();
             }
           }}
-          helperText={showError ? t("errors.username_error") : ""}
+          helperText={showError ? errorText : ""}
           error={showError}
           fullWidth
         />

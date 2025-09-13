@@ -57,12 +57,21 @@
     "join_lobby": "Join Lobby",
     "wait_for_the_next_round": "Next round starting soon...",
     "match_finished": "Match finished! Sending you back to the lobby...",
-    "round": "Round"
+    "round": "Round",
+    "ban_player": "Ban Player",
+    "make_player_host": "Make Player Host",
+    "notifications": {
+      "you_are_host": "You are the host now."
+    },
+    "you": "You"
   },
   "errors": {
     "this_lobby_not_exist": "This lobby does not exist.",
     "username_already_exists": "Username already exists.",
-    "username_error": "Username must be at least 4 characters long.",
+    "you_are_banned": "The host has banned you from the lobby.",
+    "banned_from_lobby": "You have been banned from this lobby.",
+    "username_min_length": "Username must be at least 4 characters long.",
+    "username_max_length": "Username can be up to 15 characters long.",
     "under_development": "We're working on this page. Stay tuned!"
   }
 }

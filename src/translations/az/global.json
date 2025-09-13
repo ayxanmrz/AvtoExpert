@@ -57,12 +57,21 @@
     "join_lobby": "Lobbiyə Qoşul",
     "wait_for_the_next_round": "Növbəti tur tezliklə başlayacaq...",
     "match_finished": "Oyun bitdi! Sizi lobbiyə qaytarırıq...",
-    "round": "Tur"
+    "round": "Tur",
+    "ban_player": "Oyunçunu Blokla",
+    "make_player_host": "Oyunçunu Aparıcı Et",
+    "notifications": {
+      "you_are_host": "Siz artıq aparıcısınız."
+    },
+    "you": "Siz"
   },
   "errors": {
     "this_lobby_not_exist": "Bu lobbi mövcud deyil.",
     "username_already_exists": "İstifadəçi adı artıq mövcuddur.",
-    "username_error": "İstifadəçi adı minimum 4 simvol olmalıdır.",
+    "you_are_banned": "Aparıcı sizi lobbidən qovdu.",
+    "banned_from_lobby": "Siz bu lobbidən bloklanmısınız.",
+    "username_min_length": "İstifadəçi adı minimum 4 simvol olmalıdır.",
+    "username_max_length": "İstifadəçi adı maksimum 15 simvol ola bilər.",
     "under_development": "Bu səhifə üzərində işlənilir. Tezliklə istifadədə olacaq!"
   }
 }

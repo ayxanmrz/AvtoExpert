@@ -13,8 +13,8 @@ import { SocketProvider } from "./SocketProvider";
 import Drawer from "@mui/material/Drawer";
 import { useState, useEffect } from "react";
 import SideNavigation from "./Components/SideNavigation/SideNavigation";
-import zIndex from "@mui/material/styles/zIndex";
 import { useTranslation } from "react-i18next";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [t] = useTranslation("global");
@@ -66,6 +66,7 @@ function App() {
           <Route path="/guess/multiplayer/:lobbyId" element={<GamePage />} />
         </Routes>
         {/* </div> */}
+        <ToastContainer style={{ fontFamily: "Inter, sans-serif" }} />
       </SocketProvider>
     </div>
   );

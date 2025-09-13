@@ -185,6 +185,34 @@
   cursor: not-allowed;
 }
 
+.hostButtons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+}
+
+.hostButton {
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  background-color: #f6a80b;
+  border-radius: 8px;
+  border: 1px solid #d99611;
+  cursor: pointer;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transition: 0.1s linear;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.hostButton:hover {
+  background-color: #d99611;
+}
+
 @media only screen and (max-width: 750px) {
   .main {
     padding: 10px 10px;
