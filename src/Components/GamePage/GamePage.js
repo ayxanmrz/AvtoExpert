@@ -48,6 +48,8 @@ function GamePage() {
 
   const [loadingNextRound, setLoadingNextRound] = useState(false);
 
+  const clientId = localStorage.getItem("clientId") || null;
+
   const [t, i18n] = useTranslation("global");
   let navigate = useNavigate();
 
@@ -179,8 +181,9 @@ function GamePage() {
     }
 
     if (socket) {
-      socket.emit("join-lobby", lobbyId, username, (response) => {
+      socket.emit("join-lobby", lobbyId, username, clientId, (response) => {
         if (response.status) {
+          localStorage.setItem("clientId", response.clientId);
           setLobbyParams(response.lobby);
           document.title = `${lobbyId} | AvtoExpert`;
           setLoading(response.lobby.isLoading);

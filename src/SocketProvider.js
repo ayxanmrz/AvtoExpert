@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 
 const SocketContext = createContext();
 
@@ -9,6 +10,11 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
+    let storedClientId = localStorage.getItem("clientId");
+    if (!storedClientId) {
+      storedClientId = uuidv4();
+      localStorage.setItem("clientId", storedClientId);
+    }
     if (!socket) {
       const newSocket = io(process.env.REACT_APP_SOCKET_API, {
         reconnection: true, // Enable automatic reconnection
