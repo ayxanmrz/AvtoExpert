@@ -10,7 +10,7 @@ function GuessPriceSelect() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    document.title = t("header.price_guesser") + " | AvtoExpert";
+    document.title = t("header.home") + " | AvtoExpert";
   }, [t]);
 
   const handleSinglePlayer = () => {
