@@ -66,9 +66,9 @@ function Header(props) {
             <li>
               {" "}
               <Link
-                to="/guess"
+                to="/"
                 className={
-                  location.pathname === "/guess" ? styles.activePath : undefined
+                  location.pathname === "/" ? styles.activePath : undefined
                 }
               >
                 {t("header.home")}
@@ -79,7 +79,7 @@ function Header(props) {
               <Link
                 to="/singleplayer"
                 className={
-                  location.pathname === "/singleplayer"
+                  location.pathname.startsWith("/singleplayer")
                     ? styles.activePath
                     : undefined
                 }
@@ -92,7 +92,7 @@ function Header(props) {
               <Link
                 to="/multiplayer"
                 className={
-                  location.pathname === "/multiplayer"
+                  location.pathname.startsWith("/multiplayer")
                     ? styles.activePath
                     : undefined
                 }

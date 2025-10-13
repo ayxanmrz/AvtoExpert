@@ -56,11 +56,11 @@ function App() {
       <SocketProvider>
         {/* <div className="body-main-side"> */}
         <Routes>
-          <Route path="/" element={<Home isUnderDevelopment />} />
+          {/* <Route path="/" element={<Home isUnderDevelopment />} />
           <Route path="/reviews" element={<Reviews isUnderDevelopment />} />
           <Route path="/contact" element={<Contact isUnderDevelopment />} />
-          <Route path="/compare" element={<CompareCars isUnderDevelopment />} />
-          <Route path="/guess" element={<GuessPriceSelect />} />
+          <Route path="/compare" element={<CompareCars isUnderDevelopment />} /> */}
+          <Route path="/" element={<GuessPriceSelect />} index />
           <Route path="/singleplayer" element={<GuessPrice />} />
           <Route path="/multiplayer" element={<MultiPlayerStart />} />
           <Route path="/multiplayer/:lobbyId" element={<GamePage />} />

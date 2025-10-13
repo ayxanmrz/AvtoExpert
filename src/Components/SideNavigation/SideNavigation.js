@@ -34,9 +34,9 @@ function SideNavigation(props) {
         <li>
           {" "}
           <Link
-            to="/guess"
+            to="/"
             className={
-              location.pathname === "/guess" ? styles.activePath : undefined
+              location.pathname === "/" ? styles.activePath : undefined
             }
             onClick={handleRouteChange}
           >
@@ -48,7 +48,7 @@ function SideNavigation(props) {
           <Link
             to="/singleplayer"
             className={
-              location.pathname === "/singleplayer"
+              location.pathname.startsWith("/singleplayer")
                 ? styles.activePath
                 : undefined
             }
@@ -62,7 +62,7 @@ function SideNavigation(props) {
           <Link
             to="/multiplayer"
             className={
-              location.pathname === "/multiplayer"
+              location.pathname.startsWith("/multiplayer")
                 ? styles.activePath
                 : undefined
             }
