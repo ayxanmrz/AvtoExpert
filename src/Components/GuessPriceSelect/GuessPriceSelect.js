@@ -14,10 +14,10 @@ function GuessPriceSelect() {
   }, [t]);
 
   const handleSinglePlayer = () => {
-    navigate("/guess/singleplayer");
+    navigate("/singleplayer");
   };
   const handleMultiPlayer = () => {
-    navigate("/guess/multiplayer");
+    navigate("/multiplayer");
   };
 
   return (

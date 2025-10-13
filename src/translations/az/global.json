@@ -4,7 +4,9 @@
     "reviews": "Rəylər",
     "compare": "Müqayisə",
     "contact": "Əlaqə",
-    "price_guesser": "Qiyməti Təxmin Et"
+    "price_guesser": "Qiyməti Təxmin Et",
+    "single_player": "Tək Oyunçu",
+    "multi_player": "Çox Oyunçu"
   },
   "finder": {
     "price_range": "Qiymət Aralığı",

@@ -170,9 +170,9 @@ function GamePage() {
     if (!username) {
       socket.emit("check-lobby", lobbyId, (response) => {
         if (response.status) {
-          navigate("/guess/multiplayer" + "?redirect=" + lobbyId);
+          navigate("/multiplayer" + "?redirect=" + lobbyId);
         } else {
-          navigate("/guess/multiplayer/", {
+          navigate("/multiplayer/", {
             state: { err: "this_lobby_not_exist" },
           });
         }
@@ -194,11 +194,11 @@ function GamePage() {
           }
         } else {
           if (response.err === "username_already_exists") {
-            navigate("/guess/multiplayer" + "?redirect=" + lobbyId, {
+            navigate("/multiplayer" + "?redirect=" + lobbyId, {
               state: { err: response.err },
             });
           } else {
-            navigate("/guess/multiplayer", {
+            navigate("/multiplayer", {
               state: { err: response.err },
             });
           }
@@ -230,7 +230,7 @@ function GamePage() {
       });
 
       socket?.on("you-are-banned", (data) => {
-        navigate("/guess/multiplayer", {
+        navigate("/multiplayer", {
           state: { err: "you_are_banned", lobbyId: data.lobbyId },
         });
       });

@@ -4,7 +4,9 @@
     "reviews": "Reviews",
     "compare": "Compare",
     "contact": "Contact",
-    "price_guesser": "Guess the Price"
+    "price_guesser": "Guess the Price",
+    "single_player": "Single Player",
+    "multi_player": "Multiplayer"
   },
   "finder": {
     "price_range": "Price Range",

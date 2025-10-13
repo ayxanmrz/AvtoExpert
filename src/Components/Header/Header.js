@@ -64,10 +64,11 @@ function Header(props) {
               </IconButton>
             </li>
             <li>
+              {" "}
               <Link
-                to="/"
+                to="/guess"
                 className={
-                  location.pathname === "/" ? styles.activePath : undefined
+                  location.pathname === "/guess" ? styles.activePath : undefined
                 }
               >
                 {t("header.home")}
@@ -76,40 +77,27 @@ function Header(props) {
             <li>
               {" "}
               <Link
-                to="/guess"
+                to="/singleplayer"
                 className={
-                  location.pathname.startsWith("/guess")
+                  location.pathname === "/singleplayer"
                     ? styles.activePath
                     : undefined
                 }
               >
-                {t("header.price_guesser")}
+                {t("header.single_player")}
               </Link>
             </li>
             <li>
               {" "}
               <Link
-                to="/reviews"
+                to="/multiplayer"
                 className={
-                  location.pathname === "/reviews"
+                  location.pathname === "/multiplayer"
                     ? styles.activePath
                     : undefined
                 }
               >
-                {t("header.reviews")}
-              </Link>
-            </li>
-            <li>
-              {" "}
-              <Link
-                to="/compare"
-                className={
-                  location.pathname === "/compare"
-                    ? styles.activePath
-                    : undefined
-                }
-              >
-                {t("header.compare")}
+                {t("header.multi_player")}
               </Link>
             </li>
             <li>

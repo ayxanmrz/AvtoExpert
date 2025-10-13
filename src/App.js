@@ -61,9 +61,9 @@ function App() {
           <Route path="/contact" element={<Contact isUnderDevelopment />} />
           <Route path="/compare" element={<CompareCars isUnderDevelopment />} />
           <Route path="/guess" element={<GuessPriceSelect />} />
-          <Route path="/guess/singleplayer" element={<GuessPrice />} />
-          <Route path="/guess/multiplayer" element={<MultiPlayerStart />} />
-          <Route path="/guess/multiplayer/:lobbyId" element={<GamePage />} />
+          <Route path="/singleplayer" element={<GuessPrice />} />
+          <Route path="/multiplayer" element={<MultiPlayerStart />} />
+          <Route path="/multiplayer/:lobbyId" element={<GamePage />} />
         </Routes>
         {/* </div> */}
         <ToastContainer style={{ fontFamily: "Inter, sans-serif" }} />

@@ -32,10 +32,11 @@ function SideNavigation(props) {
     <div className={styles.main}>
       <ul className={styles.linksList}>
         <li>
+          {" "}
           <Link
-            to="/"
+            to="/guess"
             className={
-              location.pathname === "/" ? styles.activePath : undefined
+              location.pathname === "/guess" ? styles.activePath : undefined
             }
             onClick={handleRouteChange}
           >
@@ -45,39 +46,29 @@ function SideNavigation(props) {
         <li>
           {" "}
           <Link
-            to="/guess"
+            to="/singleplayer"
             className={
-              location.pathname.startsWith("/guess")
+              location.pathname === "/singleplayer"
                 ? styles.activePath
                 : undefined
             }
             onClick={handleRouteChange}
           >
-            {t("header.price_guesser")}
+            {t("header.single_player")}
           </Link>
         </li>
         <li>
           {" "}
           <Link
-            to="/reviews"
+            to="/multiplayer"
             className={
-              location.pathname === "/reviews" ? styles.activePath : undefined
+              location.pathname === "/multiplayer"
+                ? styles.activePath
+                : undefined
             }
             onClick={handleRouteChange}
           >
-            {t("header.reviews")}
-          </Link>
-        </li>
-        <li>
-          {" "}
-          <Link
-            to="/compare"
-            className={
-              location.pathname === "/compare" ? styles.activePath : undefined
-            }
-            onClick={handleRouteChange}
-          >
-            {t("header.compare")}
+            {t("header.multi_player")}
           </Link>
         </li>
         <li>

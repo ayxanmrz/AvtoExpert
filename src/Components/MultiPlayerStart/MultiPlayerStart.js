@@ -56,7 +56,7 @@ function MultiPlayerStart() {
     if (!socket) return;
 
     socket?.on("lobby-created", ({ lobbyId }) => {
-      navigate("/guess/multiplayer/" + lobbyId);
+      navigate("/multiplayer/" + lobbyId);
     });
 
     // return () => socket?.disconnect();
@@ -77,7 +77,7 @@ function MultiPlayerStart() {
       socket.emit("check-lobby", joinId.trim().toUpperCase(), (response) => {
         if (response.status) {
           setShowJoinError(false);
-          navigate("/guess/multiplayer/" + joinId.trim().toUpperCase());
+          navigate("/multiplayer/" + joinId.trim().toUpperCase());
         } else {
           setShowJoinError(true);
           if (response.err) {
@@ -91,7 +91,7 @@ function MultiPlayerStart() {
   const redirectLobby = () => {
     if (username.trim().length > 3 && username.trim().length < 16) {
       localStorage.setItem("username", username);
-      navigate(`/guess/multiplayer/${redirectLobbyId}`);
+      navigate(`/multiplayer/${redirectLobbyId}`);
     }
   };
 

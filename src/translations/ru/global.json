@@ -4,7 +4,9 @@
     "reviews": "Отзывы",
     "compare": "Сравнение",
     "contact": "Контакт",
-    "price_guesser": "Угадай цену"
+    "price_guesser": "Угадай цену",
+    "single_player": "Одиночная игра",
+    "multi_player": "Мультиплеер"
   },
   "finder": {
     "price_range": "Ценовой диапазон",
