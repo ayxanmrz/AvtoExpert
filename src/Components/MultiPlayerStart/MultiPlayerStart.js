@@ -7,6 +7,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import ReactGA from "react-ga4";
+import { Helmet } from "react-helmet";
 
 function MultiPlayerStart() {
   const [joinId, setJoinId] = useState("");
@@ -146,6 +147,13 @@ function MultiPlayerStart() {
 
   return (
     <div className={styles.main}>
+      <Helmet>
+        <title>{t("price_guesser.multi_player") + " | AvtoExpert"}</title>
+        <meta
+          name="description"
+          content="AvtoExpert Tək oyunçu rejimində öz avtomobil biliklərinizi sınayın. 😎"
+        />
+      </Helmet>
       <div className={styles.menuDiv}>
         <PpIcon className={styles.ppIcon} />
         <TextField

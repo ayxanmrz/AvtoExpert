@@ -16,6 +16,7 @@ import normalSound from "../../sounds/normal.mp3";
 import goodSound from "../../sounds/good.mp3";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import ReactGA from "react-ga4";
+import { Helmet } from "react-helmet";
 
 function GuessPrice() {
   const [cars, setCars] = useState([]);
@@ -138,6 +139,13 @@ function GuessPrice() {
 
   return (
     <div className={styles.container}>
+      <Helmet>
+        <title>{t("price_guesser.single_player") + " | AvtoExpert"}</title>
+        <meta
+          name="description"
+          content="AvtoExpert Tək oyunçu rejimində öz avtomobil biliklərinizi sınayın. 😎"
+        />
+      </Helmet>
       {loading && <LoadingPage />}
       {error && (
         <div
