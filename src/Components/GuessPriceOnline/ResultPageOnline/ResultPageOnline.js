@@ -2,9 +2,7 @@ import { useTranslation } from "react-i18next";
 import styles from "./ResultPageOnline.module.css";
 
 function ResultPageOnline(props) {
-  const [t, i18n] = useTranslation("global");
-
-  const scoreBackgrounds = [styles.firstPlace, styles.second];
+  const [t] = useTranslation("global");
 
   const getSpanColor = (score) => {
     if (score > 850) {

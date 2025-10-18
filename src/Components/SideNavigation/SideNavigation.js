@@ -1,6 +1,5 @@
 import styles from "./SideNavigation.module.css";
 import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";

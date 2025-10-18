@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import styles from "./GuessPrice.module.css";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import { ReactComponent as CalendarSvg } from "../../images/PriceGuessIcons/calendar.svg";
 import { ReactComponent as CarSvg } from "../../images/PriceGuessIcons/car.svg";
 import { ReactComponent as EngineSvg } from "../../images/PriceGuessIcons/engine.svg";
@@ -15,6 +15,7 @@ import badSound from "../../sounds/bad.mp3";
 import normalSound from "../../sounds/normal.mp3";
 import goodSound from "../../sounds/good.mp3";
 import LoadingPage from "../LoadingPage/LoadingPage";
+import ReactGA from "react-ga4";
 
 function GuessPrice() {
   const [cars, setCars] = useState([]);
@@ -22,7 +23,7 @@ function GuessPrice() {
   const [error, setError] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [t, i18n] = useTranslation("global");
+  const [t] = useTranslation("global");
 
   const [showResults, setShowResults] = useState(false);
 
@@ -34,6 +35,13 @@ function GuessPrice() {
   const play = (sound) => {
     new Audio(sound).play();
   };
+  useEffect(() => {
+    ReactGA.event({
+      category: "Single Player",
+      action: "Started Single Player Game",
+      label: "Single PLayer Game",
+    });
+  }, []);
 
   useEffect(() => {
     document.title = t("price_guesser.single_player") + " | AvtoExpert";
@@ -53,32 +61,6 @@ function GuessPrice() {
       setError(err.message);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleInputChange = (e) => {
-    if (e.key == "Enter") {
-      submitCar();
-      return;
-    }
-    const allowedKeys = [37, 39, 8];
-    if (allowedKeys.includes(e.keyCode)) {
-      return;
-    }
-    if (e.keyCode === 189 || e.keyCode === 69 || e.key.isNaN) {
-      e.preventDefault();
-    }
-
-    if (e.type === "paste") {
-      key = e.clipboardData.getData("text/plain");
-    } else {
-      var key = e.keyCode || e.which;
-      key = String.fromCharCode(key);
-    }
-    var regex = /[0-9]|\./;
-    if (!regex.test(key)) {
-      e.returnValue = false;
-      if (e.preventDefault) e.preventDefault();
     }
   };
 
@@ -211,7 +193,7 @@ function GuessPrice() {
                     </button>
                     <img
                       src={cars[currentIndex]?.images[currentImageIndex]}
-                      alt="Car Image"
+                      alt="Car"
                     ></img>
                     <button
                       className={styles.sliderButtons}
@@ -281,7 +263,7 @@ function GuessPrice() {
                           className={styles.priceInput}
                         />
                         <button
-                          disabled={priceGuess == 0}
+                          disabled={priceGuess === 0}
                           className={styles.priceSubmitButton}
                           onClick={submitCar}
                         >

@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import styles from "./GuessPriceOnline.module.css";
-import { useState, useEffect, use } from "react";
 import { ReactComponent as CalendarSvg } from "../../images/PriceGuessIcons/calendar.svg";
 import { ReactComponent as CarSvg } from "../../images/PriceGuessIcons/car.svg";
 import { ReactComponent as EngineSvg } from "../../images/PriceGuessIcons/engine.svg";
@@ -11,37 +10,10 @@ import { ReactComponent as TransmissionSvg } from "../../images/PriceGuessIcons/
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import SportsScoreIcon from "@mui/icons-material/SportsScore";
 import ResultPageOnline from "./ResultPageOnline/ResultPageOnline";
-import LoadingPage from "../LoadingPage/LoadingPage";
 import LinearProgress from "@mui/material/LinearProgress";
 
 function GuessPriceOnline(props) {
-  const [t, i18n] = useTranslation("global");
-
-  const handleInputChange = (e) => {
-    if (e.key == "Enter") {
-      submitCar();
-      return;
-    }
-    const allowedKeys = [37, 39, 8];
-    if (allowedKeys.includes(e.keyCode)) {
-      return;
-    }
-    if (e.keyCode === 189 || e.keyCode === 69 || e.key.isNaN) {
-      e.preventDefault();
-    }
-
-    if (e.type === "paste") {
-      key = e.clipboardData.getData("text/plain");
-    } else {
-      var key = e.keyCode || e.which;
-      key = String.fromCharCode(key);
-    }
-    var regex = /[0-9]|\./;
-    if (!regex.test(key)) {
-      e.returnValue = false;
-      if (e.preventDefault) e.preventDefault();
-    }
-  };
+  const [t] = useTranslation("global");
 
   function numberWithCommas(x) {
     if (!x && x !== 0) return "";
@@ -141,7 +113,7 @@ function GuessPriceOnline(props) {
                     </button>
                     <img
                       src={props.currentCar?.images[props.currentImageIndex]}
-                      alt="Car Image"
+                      alt="Car"
                     ></img>
                     <button
                       className={styles.sliderButtons}
@@ -216,7 +188,7 @@ function GuessPriceOnline(props) {
                           disabled={props.isSubmitted}
                         />
                         <button
-                          disabled={props.priceGuess == 0 || props.isSubmitted}
+                          disabled={props.priceGuess === 0 || props.isSubmitted}
                           className={styles.priceSubmitButton}
                           onClick={submitCar}
                         >

@@ -1,10 +1,6 @@
 import "./App.css";
 import Header from "./Components/Header/Header";
-import { Routes, Route } from "react-router-dom";
-import Home from "./Components/Home/Home";
-import Reviews from "./Components/Reviews/Reviews";
-import Contact from "./Components/Contact/Contact";
-import CompareCars from "./Components/CompareCars/CompareCars";
+import { Routes, Route, useLocation } from "react-router-dom";
 import GuessPrice from "./Components/GuessPrice/GuessPrice";
 import GuessPriceSelect from "./Components/GuessPriceSelect/GuessPriceSelect";
 import MultiPlayerStart from "./Components/MultiPlayerStart/MultiPlayerStart";
@@ -13,16 +9,29 @@ import { SocketProvider } from "./SocketProvider";
 import Drawer from "@mui/material/Drawer";
 import { useState, useEffect } from "react";
 import SideNavigation from "./Components/SideNavigation/SideNavigation";
-import { useTranslation } from "react-i18next";
 import { ToastContainer } from "react-toastify";
+import { initGA, logPageView } from "./analytics";
+
+function TrackPageViews() {
+  const location = useLocation();
+
+  useEffect(() => {
+    logPageView(location.pathname + location.search);
+  }, [location]);
+
+  return null;
+}
 
 function App() {
-  const [t] = useTranslation("global");
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const toggleDrawer = (newOpen) => () => {
     setOpenDrawer(newOpen);
   };
+
+  useEffect(() => {
+    initGA();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -53,6 +62,7 @@ function App() {
       >
         <SideNavigation closeDrawer={toggleDrawer(false)} />
       </Drawer>
+      <TrackPageViews />
       <SocketProvider>
         {/* <div className="body-main-side"> */}
         <Routes>

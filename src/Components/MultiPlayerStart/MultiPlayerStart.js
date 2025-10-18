@@ -6,6 +6,7 @@ import { useSocket } from "../../SocketProvider";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import ReactGA from "react-ga4";
 
 function MultiPlayerStart() {
   const [joinId, setJoinId] = useState("");
@@ -22,7 +23,7 @@ function MultiPlayerStart() {
   let navigate = useNavigate();
   const location = useLocation();
 
-  const [t, i18n] = useTranslation("global");
+  const [t] = useTranslation("global");
 
   const queryParams = new URLSearchParams(location.search);
   const redirectLobbyId = queryParams.get("redirect");
@@ -69,6 +70,11 @@ function MultiPlayerStart() {
         roundTime: 10,
         totalRounds: 10,
       });
+      ReactGA.event({
+        category: "Multi Player",
+        action: "Lobby Created",
+        label: "Multi PLayer Lobby Created",
+      });
     }
   };
   const joinLobby = () => {
@@ -78,6 +84,11 @@ function MultiPlayerStart() {
         if (response.status) {
           setShowJoinError(false);
           navigate("/multiplayer/" + joinId.trim().toUpperCase());
+          ReactGA.event({
+            category: "Multi Player",
+            action: "Lobby Joined",
+            label: "PLayer Joined Lobby",
+          });
         } else {
           setShowJoinError(true);
           if (response.err) {

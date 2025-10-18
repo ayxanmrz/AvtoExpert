@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 function GuessPriceSelect() {
-  const [t, i18n] = useTranslation("global");
+  const [t] = useTranslation("global");
   let navigate = useNavigate();
 
   useEffect(() => {

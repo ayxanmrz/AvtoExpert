@@ -16,11 +16,13 @@ import badSound from "../../sounds/bad.mp3";
 import normalSound from "../../sounds/normal.mp3";
 import goodSound from "../../sounds/good.mp3";
 import { toast } from "react-toastify";
+import ReactGA from "react-ga4";
 
 function GamePage() {
   const { lobbyId } = useParams();
   const socket = useSocket();
-  const [username, setUsername] = useState(localStorage.getItem("username"));
+  const username = localStorage.getItem("username");
+
   const [players, setPlayers] = useState([]);
   const [currentStatus, setCurrentStatus] = useState("lobby");
   const [lobbyParams, setLobbyParams] = useState(null);
@@ -50,7 +52,7 @@ function GamePage() {
 
   const clientId = localStorage.getItem("clientId") || null;
 
-  const [t, i18n] = useTranslation("global");
+  const [t] = useTranslation("global");
   let navigate = useNavigate();
 
   const [serverOffset, setServerOffset] = useState(0);
@@ -112,6 +114,11 @@ function GamePage() {
       commitLobbyParam("totalRounds", lobbyParams.totalRounds, 3, 50);
       commitLobbyParam("roundTime", lobbyParams.roundTime, 5, 60);
       socket.emit("start-game", lobbyId, lobbyParams);
+      ReactGA.event({
+        category: "Multi Player",
+        action: "Game Started",
+        label: "Multi PLayer Game Started",
+      });
     }
   };
 
@@ -120,6 +127,11 @@ function GamePage() {
       socket.emit("guess-price", lobbyId, priceGuess, (callback) => {
         setLastScore(callback.score);
         setIsSubmitted(true);
+      });
+      ReactGA.event({
+        category: "Multi Player",
+        action: "Guess Made",
+        label: "PLayer made a guess",
       });
     }
   };

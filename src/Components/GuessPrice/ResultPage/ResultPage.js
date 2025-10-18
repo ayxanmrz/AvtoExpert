@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import styles from "./ResultPage.module.css";
 
 function ResultPage(props) {
-  const [t, i18n] = useTranslation("global");
+  const [t] = useTranslation("global");
 
   return (
     <div className={styles.main}>

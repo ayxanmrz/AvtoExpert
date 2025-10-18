@@ -3,7 +3,6 @@ import Logo from "../../images/logo.svg";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import FormControl from "@mui/material/FormControl";
