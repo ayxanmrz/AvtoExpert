@@ -1,0 +1,16 @@
+import styles from "./PageNotFound.module.css";
+import Illustration from "../../images/UnderDevelopment.png";
+import { useTranslation } from "react-i18next";
+
+function UnderDevelopment() {
+  const [t] = useTranslation("global");
+
+  return (
+    <div className={styles.main}>
+      <img src={Illustration} alt="Development"></img>
+      <p>{t("errors.page_not_found")}</p>
+    </div>
+  );
+}
+
+export default UnderDevelopment;

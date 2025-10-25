@@ -74,6 +74,7 @@
     "banned_from_lobby": "You have been banned from this lobby.",
     "username_min_length": "Username must be at least 4 characters long.",
     "username_max_length": "Username can be up to 15 characters long.",
-    "under_development": "We're working on this page. Stay tuned!"
+    "under_development": "We're working on this page. Stay tuned!",
+    "page_not_found": "Page Not Found."
   }
 }
