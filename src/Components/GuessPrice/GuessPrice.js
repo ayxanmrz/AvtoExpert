@@ -16,7 +16,7 @@ import normalSound from "../../sounds/normal.mp3";
 import goodSound from "../../sounds/good.mp3";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import ReactGA from "react-ga4";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 function GuessPrice() {
   const [cars, setCars] = useState([]);

@@ -4,6 +4,7 @@ import { ReactComponent as SinglePlayerIcon } from "../../images/PriceGuessIcons
 import { ReactComponent as MultiPlayerIcon } from "../../images/PriceGuessIcons/multiplayer.svg";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 
 function GuessPriceSelect() {
   const [t] = useTranslation("global");
@@ -21,22 +22,32 @@ function GuessPriceSelect() {
   };
 
   return (
-    <div className={styles.main}>
-      <div className={styles.buttons}>
-        <button onClick={handleSinglePlayer} className={styles.button}>
-          <div className={styles.buttonInnerDiv}>
-            <SinglePlayerIcon fill="#fff"></SinglePlayerIcon>
-            <span>{t("price_guesser.single_player")}</span>
-          </div>
-        </button>
-        <button onClick={handleMultiPlayer} className={styles.button}>
-          <div className={styles.buttonInnerDiv}>
-            <MultiPlayerIcon fill="#fff"></MultiPlayerIcon>
-            {t("price_guesser.multi_player")}
-          </div>
-        </button>
+    <>
+      <Helmet>
+        <title>{t("header.home")} | AvtoExpert</title>
+        <meta
+          name="description"
+          content="AvtoExpert – avtomobil həvəskarları üçün əyləncəli oyun! Qiymətləri bil, dostlarınla yarış və avtomobil biliklərini nümayiş etdir. 🚗💨"
+        />
+        <link rel="canonical" href="https://avtoexpert.az/" />
+      </Helmet>
+      <div className={styles.main}>
+        <div className={styles.buttons}>
+          <button onClick={handleSinglePlayer} className={styles.button}>
+            <div className={styles.buttonInnerDiv}>
+              <SinglePlayerIcon fill="#fff"></SinglePlayerIcon>
+              <span>{t("price_guesser.single_player")}</span>
+            </div>
+          </button>
+          <button onClick={handleMultiPlayer} className={styles.button}>
+            <div className={styles.buttonInnerDiv}>
+              <MultiPlayerIcon fill="#fff"></MultiPlayerIcon>
+              {t("price_guesser.multi_player")}
+            </div>
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

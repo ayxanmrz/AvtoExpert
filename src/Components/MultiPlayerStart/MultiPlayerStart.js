@@ -7,7 +7,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import ReactGA from "react-ga4";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 function MultiPlayerStart() {
   const [joinId, setJoinId] = useState("");
