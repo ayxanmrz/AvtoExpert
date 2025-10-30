@@ -274,6 +274,14 @@ function GuessPriceOnline(props) {
                       <div key={index} className={styles.resultDiv}>
                         <span className={styles.resultTitle}>
                           <span>{index + 1}.</span> {result.username}
+                          {result.socketId === props.socketId && (
+                            <span
+                              style={{ fontStyle: "italic", color: "gray" }}
+                            >
+                              {" "}
+                              ({t("price_guesser.you")})
+                            </span>
+                          )}
                         </span>
                         <span
                           className={

@@ -161,7 +161,6 @@
 }
 
 .inputSection input {
-  max-width: 40px;
   border-radius: 8px;
   border: 1px solid rgb(229, 231, 235);
   background-color: rgb(249, 250, 251);

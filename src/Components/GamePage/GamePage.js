@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import styles from "./GamePage.module.css";
 import { useSocket } from "../../SocketProvider";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as PersonSvg } from "../../images/PriceGuessIcons/person.svg";
 import { ReactComponent as SettingsSvg } from "../../images/PriceGuessIcons/settings.svg";
@@ -17,6 +17,8 @@ import normalSound from "../../sounds/normal.mp3";
 import goodSound from "../../sounds/good.mp3";
 import { toast } from "react-toastify";
 import ReactGA from "react-ga4";
+import getCorrectSuffix from "./GetCorrectSuffix";
+import { ArrowUp, ArrowDown } from "lucide-react";
 
 function GamePage() {
   const { lobbyId } = useParams();
@@ -47,15 +49,22 @@ function GamePage() {
 
   const [lastScores, setLastScores] = useState([]);
   const [lastPrice, setLastPrice] = useState(0);
+  const [myRank, setMyRank] = useState(0);
 
   const [loadingNextRound, setLoadingNextRound] = useState(false);
 
   const clientId = localStorage.getItem("clientId") || null;
 
-  const [t] = useTranslation("global");
+  const [t, i18n] = useTranslation("global");
   let navigate = useNavigate();
 
   const [serverOffset, setServerOffset] = useState(0);
+
+  const myRankRef = useRef(0);
+
+  useEffect(() => {
+    myRankRef.current = myRank;
+  }, [myRank]);
 
   useEffect(() => {
     if (!socket) return;
@@ -178,6 +187,44 @@ function GamePage() {
     img.src = url;
   };
 
+  const showRankChangeToast = (rank, direction) => {
+    const isUp = direction === "up";
+
+    const icon = isUp ? (
+      <ArrowUp className="inline-block mr-2" size={22} />
+    ) : (
+      <ArrowDown className="inline-block mr-2" size={22} />
+    );
+
+    const toastFn = isUp ? toast.success : toast.error;
+    const key = isUp ? "price_guesser.rank_up" : "price_guesser.rank_down";
+    const msg = t(key);
+
+    const [before, after] = msg.split("#");
+
+    toastFn(
+      <div>
+        {icon}
+        <span>
+          {before}
+          <b>{rank}</b>
+          {after}
+        </span>
+      </div>,
+      {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        icon: false,
+      }
+    );
+  };
+
   useEffect(() => {
     if (!username) {
       socket.emit("check-lobby", lobbyId, (response) => {
@@ -274,6 +321,20 @@ function GamePage() {
             lastScores.find((player) => player.socketId === socket.id)?.score ||
               0
           );
+          let sortedPlayers = [...players].sort((a, b) => b.score - a.score);
+          let myNewRank =
+            sortedPlayers.findIndex((p) => p.socketId === socket.id) + 1;
+          console.log("My new rank:", myNewRank);
+          console.log("My old rank:", myRank);
+          const prevRank = myRankRef.current;
+          if (prevRank !== 0 && myNewRank !== prevRank) {
+            showRankChangeToast(
+              getCorrectSuffix(myNewRank, i18n.language),
+              myNewRank < prevRank ? "up" : "down"
+            );
+          }
+          setMyRank(myNewRank);
+
           if (nextImage) {
             preloadImage(nextImage);
           }
@@ -358,6 +419,7 @@ function GamePage() {
                 ? (timeLeft / lobbyParams.roundTime) * 100
                 : 0
             }
+            socketId={socket?.id}
             isSubmitted={isSubmitted}
             priceGuess={priceGuess}
             setPriceGuess={setPriceGuess}
@@ -403,7 +465,9 @@ function GamePage() {
               </div>
               <div className={styles.lobbyInfoBottom}>
                 <div className={styles.lobbyIdDiv}>
-                  <div className={styles.lobbyId}>{lobbyId}</div>
+                  <div className={`${styles.lobbyId} leading-none`}>
+                    {lobbyId}
+                  </div>
                   <button
                     onClick={handleCopyLink}
                     className={styles.copyButton}
@@ -427,6 +491,7 @@ function GamePage() {
                       min={5}
                       max={60}
                       inputMode="numeric"
+                      className=""
                       value={lobbyParams?.roundTime ?? ""}
                       onChange={handleParamInput("roundTime", 5, 60)}
                       onBlur={handleParamCommit("roundTime", 5, 60)}

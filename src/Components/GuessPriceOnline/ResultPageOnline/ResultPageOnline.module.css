@@ -38,6 +38,7 @@
   align-items: center;
   justify-content: center;
   gap: 7px;
+  margin: 22px 0;
 }
 
 .scoreSpan {

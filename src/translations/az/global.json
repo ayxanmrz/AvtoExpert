@@ -65,7 +65,9 @@
     "notifications": {
       "you_are_host": "Siz artıq aparıcısınız."
     },
-    "you": "Siz"
+    "you": "Siz",
+    "rank_up": "Təbriklər! # yerə yüksəldin!",
+    "rank_down": "Ehtiyatlı ol! # yerə endin!"
   },
   "errors": {
     "this_lobby_not_exist": "Bu lobbi mövcud deyil.",

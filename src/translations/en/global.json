@@ -65,7 +65,9 @@
     "notifications": {
       "you_are_host": "You are the host now."
     },
-    "you": "You"
+    "you": "You",
+    "rank_up": "Well done! You climbed to # place!",
+    "rank_down": "Careful! You fell to # place!"
   },
   "errors": {
     "this_lobby_not_exist": "This lobby does not exist.",
