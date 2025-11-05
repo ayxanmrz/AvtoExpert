@@ -67,7 +67,8 @@
     },
     "you": "You",
     "rank_up": "Well done! You climbed to # place!",
-    "rank_down": "Careful! You fell to # place!"
+    "rank_down": "Careful! You fell to # place!",
+    "reset_points": "Reset Points"
   },
   "errors": {
     "this_lobby_not_exist": "This lobby does not exist.",

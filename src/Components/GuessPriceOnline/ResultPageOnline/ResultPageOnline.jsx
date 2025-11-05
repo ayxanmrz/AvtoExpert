@@ -56,7 +56,8 @@ function ResultPageOnline(props) {
               .map((result, index) => (
                 <div
                   key={index}
-                  className={`${styles.resultDiv} ${getScoreBackground(index)}`}
+                  className={`${styles.resultDiv} ${getScoreBackground(index)} ${result.socketId === props.socketId ? styles.yourResult : ""
+                    }`}
                 >
                   <span className={styles.resultTitle}>{result.username}</span>
                   <div className={styles.pointsDiv}>

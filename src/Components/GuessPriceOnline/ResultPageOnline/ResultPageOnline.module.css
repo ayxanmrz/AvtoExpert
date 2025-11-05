@@ -159,6 +159,22 @@
   justify-content: flex-end;
 }
 
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 20px 20px rgba(72, 187, 120, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(72, 187, 120, 0);
+  }
+}
+
+.yourResult {
+  animation: pulse 1s ease-out infinite;
+}
+
 @media only screen and (max-width: 750px) {
   .main {
     padding: 20px;

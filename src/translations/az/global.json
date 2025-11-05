@@ -67,7 +67,8 @@
     },
     "you": "Siz",
     "rank_up": "Təbriklər! # yerə yüksəldin!",
-    "rank_down": "Ehtiyatlı ol! # yerə endin!"
+    "rank_down": "Ehtiyatlı ol! # yerə endin!",
+    "reset_points": "Xalları sıfırla"
   },
   "errors": {
     "this_lobby_not_exist": "Bu lobbi mövcud deyil.",

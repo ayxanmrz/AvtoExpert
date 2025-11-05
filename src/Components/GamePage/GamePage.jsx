@@ -3,10 +3,10 @@ import styles from "./GamePage.module.css";
 import { useSocket } from "../../SocketProvider";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import  PersonSvg  from "../../images/PriceGuessIcons/person.svg?react";
-import SettingsSvg  from "../../images/PriceGuessIcons/settings.svg?react";
-import  CrownSvg  from "../../images/PriceGuessIcons/crown.svg?react";
-import  BanIcon  from "../../images/PriceGuessIcons/ban.svg?react";
+import PersonSvg from "../../images/PriceGuessIcons/person.svg?react";
+import SettingsSvg from "../../images/PriceGuessIcons/settings.svg?react";
+import CrownSvg from "../../images/PriceGuessIcons/crown.svg?react";
+import BanIcon from "../../images/PriceGuessIcons/ban.svg?react";
 import LinkIcon from "@mui/icons-material/Link";
 import { useTranslation } from "react-i18next";
 import LoadingPage from "../LoadingPage/LoadingPage";
@@ -17,7 +17,7 @@ import goodSound from "../../sounds/good.mp3";
 import { toast } from "react-toastify";
 import ReactGA from "react-ga4";
 import getCorrectSuffix from "./GetCorrectSuffix";
-import { ArrowUp, ArrowDown } from "lucide-react";
+import { ArrowUp, ArrowDown, RotateCcw } from "lucide-react";
 
 function GamePage() {
   const { lobbyId } = useParams();
@@ -111,7 +111,7 @@ function GamePage() {
     const newParams = { ...lobbyParams, [param]: clamped };
 
     setLobbyParams(newParams);
-    socket?.emit("lobby-param-change", lobbyId, newParams, () => {});
+    socket?.emit("lobby-param-change", lobbyId, newParams, () => { });
 
     return clamped;
   };
@@ -180,6 +180,16 @@ function GamePage() {
     }
   };
 
+  const getSpanColor = (score) => {
+    if (score > 850) {
+      return styles.greenSpan;
+    } else if (score > 500) {
+      return styles.yellowSpan;
+    } else {
+      return styles.redSpan;
+    }
+  };
+
   const preloadImage = (url) => {
     const img = new Image();
     img.src = url;
@@ -222,6 +232,18 @@ function GamePage() {
       }
     );
   };
+
+  const handleResetPoints = () => {
+    if (socket?.id === lobbyParams?.host) {
+      socket.emit("reset-points", lobbyId, (response) => {
+        if (!response.status) {
+          console.error("Failed to reset points:", response.err);
+        } else {
+          setLobbyParams((prev) => ({ ...prev, isDirty: false }));
+        }
+      });
+    }
+  }
 
   useEffect(() => {
     if (!username) {
@@ -272,18 +294,19 @@ function GamePage() {
         setLoading(false);
         setCurrentStatus("game");
         setTotalNumberOfCars(roundNumber);
+        setLobbyParams((prev) => ({ ...prev, isDirty: true }));
       });
       socket.on("game-error", ({ message }) => {
-            toast.error(message, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
+        toast.error(message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
         setLoading(false);
       });
 
@@ -316,6 +339,11 @@ function GamePage() {
         }
       });
 
+      socket?.on("points-reset", (data) => {
+        setLobbyParams((prev) => ({ ...prev, isDirty: false }));
+        setPlayers(data.players);
+      });
+
       socket?.on(
         "round-ended",
         ({ round, players, lastScores, lastPrice, nextImage }) => {
@@ -325,7 +353,7 @@ function GamePage() {
           setLastPrice(lastPrice);
           playSoundAccScore(
             lastScores.find((player) => player.socketId === socket.id)?.score ||
-              0
+            0
           );
           let sortedPlayers = [...players].sort((a, b) => b.score - a.score);
           let myNewRank =
@@ -366,6 +394,7 @@ function GamePage() {
         socket.off("game-ended");
         socket.off("host-changed");
         socket.off("you-are-banned");
+        socket.off("points-reset");
         socket.emit("player-left");
       };
     }
@@ -386,9 +415,8 @@ function GamePage() {
       setCurrentImageIndex(0);
       setPriceGuess(0);
       setCurrentRoundNumber(round);
-      document.title = `${lobbyId} - ${t("price_guesser.round")} ${round}/${
-        lobbyParams?.totalRounds
-      } | AvtoExpert`;
+      document.title = `${lobbyId} - ${t("price_guesser.round")} ${round}/${lobbyParams?.totalRounds
+        } | AvtoExpert`;
 
       const interval = setInterval(() => {
         // use corrected clock
@@ -560,7 +588,10 @@ function GamePage() {
                   stroke="#f6a80b"
                 />
                 {t("price_guesser.players")}
-                <span className={styles.scoreSpan}>{players.length}</span>
+                <div className="ml-auto flex items-center gap-2">
+                  {(socket?.id === lobbyParams?.host && lobbyParams?.isDirty) && (<button onClick={handleResetPoints} className={`${styles.scoreSpan}  ${styles.redSpan} !pl-2.5 !pr-3 flex items-center gap-2 transition cursor-pointer hover:bg-red-500 hover:text-red-50`}><RotateCcw width="20px" /> {t("price_guesser.reset_points")}</button>)}
+                  <span className={styles.scoreSpan}>{players.length}</span>
+                </div>
               </div>
               <div className={styles.playerDivs}>
                 {players
@@ -628,6 +659,16 @@ function GamePage() {
                             </button>
                           </div>
                         )}
+                      {lobbyParams?.isDirty && (
+                        <span
+                          className={
+                            styles.scoreSpan + " " + getSpanColor(player.score) + " ml-2.5"
+                          }
+                        >
+                          {player.score}
+                        </span>
+                      )}
+
                     </div>
                   ))}
               </div>

@@ -1,12 +1,12 @@
 import { useTranslation } from "react-i18next";
 import styles from "./GuessPriceOnline.module.css";
-import CalendarSvg  from "../../images/PriceGuessIcons/calendar.svg?react";
-import CarSvg  from "../../images/PriceGuessIcons/car.svg?react";
-import  EngineSvg  from "../../images/PriceGuessIcons/engine.svg?react";
-import  OdometerSvg  from "../../images/PriceGuessIcons/odometer.svg?react";
-import  RightArrow  from "../../images/PriceGuessIcons/right.svg?react";
-import  LeftArrow  from "../../images/PriceGuessIcons/left.svg?react";
-import  TransmissionSvg  from "../../images/PriceGuessIcons/transmission.svg?react";
+import CalendarSvg from "../../images/PriceGuessIcons/calendar.svg?react";
+import CarSvg from "../../images/PriceGuessIcons/car.svg?react";
+import EngineSvg from "../../images/PriceGuessIcons/engine.svg?react";
+import OdometerSvg from "../../images/PriceGuessIcons/odometer.svg?react";
+import RightArrow from "../../images/PriceGuessIcons/right.svg?react";
+import LeftArrow from "../../images/PriceGuessIcons/left.svg?react";
+import TransmissionSvg from "../../images/PriceGuessIcons/transmission.svg?react";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import SportsScoreIcon from "@mui/icons-material/SportsScore";
 import ResultPageOnline from "./ResultPageOnline/ResultPageOnline";
@@ -24,7 +24,7 @@ function GuessPriceOnline(props) {
     let engineList = engine.split(" / ");
     engineList[engineList.length - 1] = t(
       "price_guesser.fuel_types." +
-        engineList[engineList.length - 1].toLowerCase().replaceAll(" ", "-")
+      engineList[engineList.length - 1].toLowerCase().replaceAll(" ", "-")
     );
     return engineList.join(" / ");
   };
@@ -91,6 +91,7 @@ function GuessPriceOnline(props) {
                     calculateScore(props.lastPrice, props.priceGuess)
                   )}
                   lastScores={props.lastScores}
+                  socketId={props.socketId}
                 />
               )}
               <div
@@ -152,7 +153,7 @@ function GuessPriceOnline(props) {
                       <TransmissionSvg fill="#f6a80b" stroke="#f6a80b" />
                       {t(
                         "price_guesser.transmission_types." +
-                          props.currentCar.transmission.toLowerCase()
+                        props.currentCar.transmission.toLowerCase()
                       ) || props.currentCar.transmission}
                     </div>
                   </div>

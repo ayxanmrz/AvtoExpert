@@ -193,7 +193,7 @@ function MultiPlayerStart() {
                 sx={{
                   ...CssTextField,
                   "& .MuiInputBase-root, & .MuiInputBase-input": {
-                    height: "41.5px",
+                    height: "46px",
                     paddingBottom: "0",
                     paddingTop: "0",
                   },
@@ -220,7 +220,7 @@ function MultiPlayerStart() {
                 }}
               />
               <button
-                className={styles.button}
+                className={`${styles.button} min-w-[46px]`}
                 onClick={
                   showLoginInput
                     ? joinLobby
