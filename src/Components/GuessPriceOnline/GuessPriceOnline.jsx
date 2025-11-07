@@ -263,7 +263,7 @@ function GuessPriceOnline(props) {
               <div className={styles.resultsSideContainer}>
                 <div className={styles.resultsTop}>
                   <SportsScoreIcon style={{ color: "#f6a80b" }} />
-                  {t("price_guesser.results")}
+                  <span className="text-[var(--lobby-header-color)]">{t("price_guesser.results")}</span>
                   <span className={styles.scoreSpan}>
                     {props.results.length}
                   </span>

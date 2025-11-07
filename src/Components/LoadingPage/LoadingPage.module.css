@@ -5,6 +5,12 @@
   justify-content: center;
 }
 
+.loadingPage p {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--input-text-color);
+}
+
 /* HTML: <div class="loader"></div> */
 .loader {
   width: 70px;

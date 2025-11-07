@@ -1,5 +1,6 @@
 import styles from "./Header.module.css";
 import Logo from "../../images/logo.svg";
+import DarkLogo from "../../images/dark_logo.svg";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -13,16 +14,22 @@ import az_flag from "../../images/az_flag.svg";
 import en_flag from "../../images/en_flag.svg";
 import ru_flag from "../../images/ru_flag.svg";
 
+import { useTheme } from "../../context/ThemeContext";
+import { Moon, Sun } from "lucide-react";
+
 function Header(props) {
   const location = useLocation();
   const [t, i18n] = useTranslation("global");
 
   const [langSelectShow, setLangSelectShow] = useState(false);
 
+  const { theme, toggleTheme } = useTheme();
+
   const MenuItemStyle = {
     display: "flex",
     alignItems: "center",
     gap: "10px",
+    "&:hover": { backgroundColor: "var(--select-hover-bg-color)" }
   };
 
   const handleLangChange = (e) => {
@@ -48,7 +55,7 @@ function Header(props) {
       <div className={styles.main}>
         <div className={styles.logoDiv}>
           <Link to="/">
-            <img src={Logo} alt="Avto Expert"></img>
+            <img src={theme === "light" ? Logo : DarkLogo} alt="Avto Expert"></img>
           </Link>
         </div>
 
@@ -57,6 +64,7 @@ function Header(props) {
             <li className={styles.menuIcon}>
               <IconButton
                 onClick={props.handleOpenDrawer}
+                style={{ color: "var(--header-open-color)" }}
                 aria-label="menu-button"
               >
                 <MenuIcon />
@@ -112,6 +120,11 @@ function Header(props) {
                 {t("header.contact")}
               </Link>
             </li>
+            <li className="flex items-center justify-center">
+              <button onClick={toggleTheme} className={styles.themeToggleBtn}>
+                {theme === "light" ? <Moon /> : <Sun />}
+              </button>
+            </li>
             <li>
               <FormControl fullWidth>
                 <Select
@@ -120,6 +133,7 @@ function Header(props) {
                   defaultValue={i18n.language}
                   onChange={handleLangChange}
                   sx={{
+                    color: "var(--select-text-color)",
                     "& .MuiSelect-select": {
                       display: "flex",
                       alignItems: "center",
@@ -128,6 +142,21 @@ function Header(props) {
                         padding: "10px 32px 10px 10px",
                         fontSize: "12px",
                       },
+                    },
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "var(--select-border-color)",
+                    },
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "var(--select-border-hover-color)",
+                    },
+                    "& .MuiSvgIcon-root": {
+                      color: "var(--select-icon-color)",
+                    },
+                    ".MuiPaper-root": {
+                      backgroundColor: "var(--select-bg-color)",
+                    },
+                    ".MuiButtonBase-root.Mui-selected": {
+                      backgroundColor: "var(--select-item-bg-color-selected)",
                     },
                   }}
                   onOpen={() => setLangSelectShow(true)}
@@ -141,7 +170,7 @@ function Header(props) {
                       src={az_flag}
                       alt="AZ"
                     ></img>
-                    <div>AZ</div>
+                    <div className="text-[var(--select-text-color)]">AZ</div>
                   </MenuItem>
                   <MenuItem sx={MenuItemStyle} value={"ru"}>
                     <img
@@ -149,7 +178,7 @@ function Header(props) {
                       src={ru_flag}
                       alt="RU"
                     ></img>
-                    <div>RU</div>
+                    <div className="text-[var(--select-text-color)]">RU</div>
                   </MenuItem>
                   <MenuItem sx={MenuItemStyle} value={"en"}>
                     <img
@@ -157,7 +186,7 @@ function Header(props) {
                       src={en_flag}
                       alt="EN"
                     ></img>
-                    EN
+                    <div className="text-[var(--select-text-color)]">EN</div>
                   </MenuItem>
                 </Select>
               </FormControl>

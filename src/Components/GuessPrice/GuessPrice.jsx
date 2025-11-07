@@ -146,12 +146,7 @@ function GuessPrice() {
       {loading && <LoadingPage />}
       {error && (
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "column",
-            gap: "20px",
-          }}
+          className="flex flex-col justify-center items-center gap-5"
         >
           {" "}
           <p style={{ color: "red", margin: 0 }}>❌ {error}</p>{" "}
@@ -342,7 +337,8 @@ function GuessPrice() {
               <div className={styles.resultsSideContainer}>
                 <div className={styles.resultsTop}>
                   <SportsScoreIcon style={{ color: "#f6a80b" }} />
-                  {t("price_guesser.results")}
+                  <span className="text-[var(--lobby-header-color)]">{t("price_guesser.results")}</span>
+
                   <span className={styles.scoreSpan}>
                     {results.reduce((sum, elem) => sum + elem.score, 0)} /{" "}
                     {results.length * 1000}

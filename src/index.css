@@ -2,6 +2,132 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Header */
+  --header-bg: #ffffff;
+  --header-text-color: #2d2d2d;
+  --header-hover-bg: rgba(0, 0, 0, 0.1);
+  --header-open-color: rgba(0, 0, 0, 0.54);
+  --select-border-color: #cccccc;
+  --select-text-color: rgba(0, 0, 0, 0.87);
+  --select-border-hover-color: #888888;
+  --select-icon-color: rgba(0, 0, 0, 0.54);
+  --select-bg-color: #ffffff;
+  --select-hover-bg-color: #f5f5f5;
+  --select-item-bg-color-selected: rgba(25, 118, 210, 0.12);
+
+  /* Home Page */
+  --bg-color-main: rgb(243, 244, 246);
+  --main-page-border-color: rgb(229, 231, 235);
+  --bg-color-main-item: white;
+  --input-text-color: rgba(0, 0, 0, 0.87);
+  --input-placeholder-color: rgba(0, 0, 0, 0.6);
+
+  /* Lobby Page */
+  --lobby-header-color: #111827;
+  --lobby-param-color: #6b7280;
+  --input-bg-color: rgb(249, 250, 251);
+  --input-hover-bg-color: rgb(224, 225, 226);
+
+  /* Spans */
+  --span-bg-green: rgb(236, 253, 245);
+  --span-text-green: rgb(5, 150, 105);
+
+  --span-bg-yellow: rgb(255, 247, 237);
+  --span-text-yellow: rgb(251, 191, 36);
+
+  --span-bg-red: rgb(254, 242, 242);
+  --span-text-red: rgb(220, 38, 38);
+
+  --span-bg-host: rgb(255, 247, 237);
+  --span-text-host: rgb(251, 191, 36);
+
+  /* Result Ranks */
+  --first-border: rgb(251, 191, 36);
+  --first-bg: rgb(255, 251, 235);
+
+  --second-border: rgb(107, 114, 128);
+  --second-bg: rgb(249, 250, 251);
+
+  --third-border: rgb(217, 119, 6);
+  --third-bg: rgb(255, 251, 235);
+
+  --normal-border: rgb(199, 190, 180);
+  --normal-bg: rgb(225, 225, 224);
+
+  /* Guess Price */
+  --price-input-bg: rgb(255, 255, 255);
+  --price-input-hover-bg: rgb(242, 242, 242);
+  --price-guess-color: rgb(75, 85, 99);
+}
+
+[data-theme="dark"] {
+  /* Header */
+  --header-bg: #2b2929;
+  --header-text-color: #ffffff;
+  --header-hover-bg: rgba(255, 255, 255, 0.2);
+  --header-open-color: rgba(255, 255, 255, 0.7);
+  --select-border-color: #444444;
+  --select-text-color: #ffffff;
+  --select-border-hover-color: #888888;
+  --select-icon-color: #ffffff;
+  --select-bg-color: #222222;
+  --select-hover-bg-color: #333333;
+  --select-item-bg-color-selected: rgba(25, 118, 210, 0.3);
+
+  /* Home Page */
+  --bg-color-main: rgb(26, 26, 26);
+  --main-page-border-color: rgb(55, 65, 81);
+  --bg-color-main-item: rgb(45, 45, 45);
+  --input-text-color: #ffffff;
+  --input-placeholder-color: rgba(255, 255, 255, 0.7);
+
+  /* Lobby Page */
+  --lobby-header-color: #f3f4f6;
+  --lobby-param-color: #9ca3af;
+  --input-bg-color: rgb(51, 51, 51);
+  --input-hover-bg-color: rgb(75, 75, 75);
+
+  /* Spans */
+  --span-bg-green: rgb(6, 78, 59);
+  --span-text-green: rgb(167, 243, 208);
+
+  --span-bg-yellow: rgb(69, 54, 17);
+  --span-text-yellow: rgb(253, 230, 138);
+
+  --span-bg-red: rgb(69, 28, 28);
+  --span-text-red: rgb(248, 113, 113);
+
+  --span-bg-host: rgb(69, 54, 17);
+  --span-text-host: rgb(253, 230, 138);
+
+  /* Result Ranks */
+  --first-border: rgb(253, 224, 71);
+  --first-bg: rgb(69, 54, 17);
+
+  --second-border: rgb(156, 163, 175);
+  --second-bg: rgb(31, 31, 33);
+
+  --third-border: rgb(245, 158, 11);
+  --third-bg: rgb(69, 54, 17);
+
+  --normal-border: rgb(120, 113, 108);
+  --normal-bg: rgb(38, 38, 38);
+
+  /* Guess Price */
+  --price-input-bg: rgb(51, 51, 51);
+  --price-input-hover-bg: rgb(75, 75, 75);
+  --price-guess-color: rgb(209, 213, 219);
+}
+.MuiPaper-root {
+  background-color: var(--select-bg-color) !important;
+}
+
+.MuiButtonBase-root.Mui-selected {
+  background-color: var(--select-item-bg-color-selected) !important;
+}
+
+,
 body {
   margin: 0;
   font-family: "Inter", sans-serif;
@@ -20,4 +146,27 @@ code {
 
 .Toastify__toast {
   font-family: "Inter", sans-serif;
+}
+
+:root {
+  --scroll-thumb: rgba(120, 120, 120, 0.4);
+  --scroll-thumb-hover: rgba(160, 160, 160, 0.6);
+}
+
+[data-theme="dark"] {
+  --scroll-thumb: rgba(255, 255, 255, 0.2);
+  --scroll-thumb-hover: rgba(255, 255, 255, 0.4);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--scroll-thumb);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scroll-thumb-hover);
 }

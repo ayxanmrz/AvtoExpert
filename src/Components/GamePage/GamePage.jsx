@@ -472,7 +472,7 @@ function GamePage() {
               style={{
                 borderTopRightRadius: 0,
                 borderBottomRightRadius: 0,
-                borderRight: "1px solid rgb(229, 231, 235)",
+                borderRight: "1px solid var(--main-page-border-color)",
               }}
               className={styles.playersSideContainer}
             >
@@ -505,7 +505,7 @@ function GamePage() {
                 </div>
                 <div className={styles.lobbySettingsDiv}>
                   <div className={styles.inputSection}>
-                    <label htmlFor="roundDuration">
+                    <label htmlFor="roundDuration" className="text-[var(--lobby-param-color)]">
                       {t("price_guesser.round_duration")}:
                     </label>
                     <input
@@ -533,7 +533,7 @@ function GamePage() {
                     />
                   </div>
                   <div className={styles.inputSection}>
-                    <label htmlFor="roundNumber">
+                    <label htmlFor="roundNumber" className="text-[var(--lobby-param-color)]">
                       {t("price_guesser.number_of_rounds")}:
                     </label>
                     <input
@@ -617,7 +617,6 @@ function GamePage() {
                         {player.socketId === lobbyParams?.host && (
                           <>
                             <div
-                              style={{ backgroundColor: "rgb(255, 247, 237)" }}
                               className={styles.hostSpan}
                             >
                               <CrownSvg

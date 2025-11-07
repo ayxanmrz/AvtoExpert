@@ -6,7 +6,9 @@
     "contact": "Əlaqə",
     "price_guesser": "Qiyməti Təxmin Et",
     "single_player": "Tək Oyunçu",
-    "multi_player": "Çox Oyunçu"
+    "multi_player": "Çox Oyunçu",
+    "dark": "Tünd Tema",
+    "light": "Açıq Tema"
   },
   "finder": {
     "price_range": "Qiymət Aralığı",

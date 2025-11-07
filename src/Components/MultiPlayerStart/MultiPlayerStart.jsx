@@ -128,6 +128,12 @@ function MultiPlayerStart() {
     "& .MuiFormHelperText-root": {
       margin: "3px 0 0 0",
     },
+    "& .MuiInputBase-input": {
+      color: "var(--input-text-color)"
+    },
+    "& .MuiFormLabel-root": {
+      color: "var(--input-placeholder-color)"
+    }
   };
 
   useEffect(() => {

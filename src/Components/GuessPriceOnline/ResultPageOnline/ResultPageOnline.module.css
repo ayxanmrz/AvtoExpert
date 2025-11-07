@@ -1,7 +1,7 @@
 .main {
   width: 100%;
   border-radius: 12px;
-  background-color: white;
+  background-color: var(--bg-color-main-item);
   border: 2px solid #f6a80b;
   box-sizing: border-box;
   padding: 30px;
@@ -19,7 +19,7 @@
 }
 
 .roundResult {
-  color: rgb(17, 24, 39);
+  color: var(--lobby-header-color);
   font-weight: 700;
   font-size: 30px;
   margin-bottom: 15px !important;
@@ -85,7 +85,7 @@
   width: 100%;
   box-sizing: border-box;
   padding: 20px;
-  background-color: rgb(249, 250, 251);
+  background-color: var(--input-bg-color);
   transition: 0.2s linear;
   display: flex;
   align-items: center;
@@ -96,7 +96,7 @@
 .resultTitle {
   font-size: 18px;
   font-weight: 500;
-  color: rgb(17, 24, 39);
+  color: var(--lobby-header-color);
   flex-grow: 1;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -106,16 +106,16 @@
 }
 
 .greenSpan {
-  background-color: rgb(236, 253, 245);
-  color: rgb(5, 150, 105);
+  background-color: var(--span-bg-green);
+  color: var(--span-text-green);
 }
 .yellowSpan {
-  background-color: rgb(255, 247, 237);
-  color: rgb(251, 191, 36);
+  background-color: var(--span-bg-yellow);
+  color: var(--span-text-yellow);
 }
 .redSpan {
-  background-color: rgb(254, 242, 242);
-  color: rgb(220, 38, 38);
+  background-color: var(--span-bg-red);
+  color: var(--span-text-red);
 }
 
 .pointsDiv {
@@ -126,7 +126,7 @@
 }
 
 .priceResultText {
-  color: rgb(75, 85, 99);
+  color: var(--price-guess-color);
   font-size: 17px;
   font-weight: 700;
   text-align: left;
@@ -134,23 +134,23 @@
 }
 
 .firstPlace {
-  border: 2px solid rgb(251, 191, 36);
-  background-color: rgb(255, 251, 235);
+  border: 2px solid var(--first-border);
+  background-color: var(--first-bg);
 }
 
 .secondPlace {
-  border: 2px solid rgb(107, 114, 128);
-  background-color: rgb(249, 250, 251);
+  border: 2px solid var(--second-border);
+  background-color: var(--second-bg);
 }
 
 .thirdPlace {
-  border: 2px solid rgb(217, 119, 6);
-  background-color: rgb(255, 251, 235);
+  border: 2px solid var(--third-border);
+  background-color: var(--third-bg);
 }
 
 .normalBackground {
-  border: 2px solid rgb(199, 190, 180);
-  background-color: rgb(225, 225, 224);
+  border: 2px solid var(--normal-border);
+  background-color: var(--normal-bg);
 }
 
 .scoreHolderSpan {

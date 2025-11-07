@@ -16,8 +16,8 @@ function ResultPage(props) {
           </p>
         </div>
 
-        <p className={styles.scoreText}>
-          {t("price_guesser.your_guess")}{" "}
+        <p className={`${styles.scoreText} mt-5`}>
+          <span className="text-[var(--input-text-color)]">{t("price_guesser.your_guess")}</span>{" "}
           <span className={styles.scoreSpan + " " + props.spanColor}>
             {props.score}
           </span>

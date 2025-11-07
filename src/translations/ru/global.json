@@ -6,7 +6,9 @@
     "contact": "Контакт",
     "price_guesser": "Угадай цену",
     "single_player": "Одиночная игра",
-    "multi_player": "Мультиплеер"
+    "multi_player": "Мультиплеер",
+    "dark": "Тёмная тема",
+    "light": "Светлая тема"
   },
   "finder": {
     "price_range": "Ценовой диапазон",

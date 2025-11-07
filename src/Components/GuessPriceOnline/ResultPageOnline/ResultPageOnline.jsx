@@ -43,7 +43,7 @@ function ResultPageOnline(props) {
         </div>
 
         <p className={styles.scoreText}>
-          {t("price_guesser.your_guess")}{" "}
+          <span className="text-[var(--input-text-color)]">{t("price_guesser.your_guess")}</span>{" "}
           <span className={styles.scoreSpan + " " + props.spanColor}>
             {props.score}
           </span>
