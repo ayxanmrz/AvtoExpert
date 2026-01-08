@@ -1,9 +1,10 @@
 import styles from "./GuessPriceSelect.module.css";
 import { useTranslation } from "react-i18next";
-import SinglePlayerIcon from "../../images/PriceGuessIcons/singleplayer.svg?react";
-import MultiPlayerIcon from "../../images/PriceGuessIcons/multiplayer.svg?react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { GameModeCard } from "./GameModeCard";
+import SinglePlayerIcon from "../../images/PriceGuessIcons/singleplayer.svg?react";
+import MultiPlayerIcon from "../../images/PriceGuessIcons/multiplayer.svg?react";
 
 function GuessPriceSelect() {
   const [t] = useTranslation("global");
@@ -34,21 +35,69 @@ function GuessPriceSelect() {
 
       </>
       <div className={styles.main}>
-        <div className={styles.buttons}>
-          <button onClick={handleSinglePlayer} className={styles.button}>
-            <div className={styles.buttonInnerDiv}>
-              <SinglePlayerIcon fill="#fff"></SinglePlayerIcon>
-              <span>{t("price_guesser.single_player")}</span>
+        {/* <div className={styles.container}>
+          <div className={styles.header}>
+            <h1 className={styles.title}>Oyun Rejimi</h1>
+            <p className={styles.subtitle}>Zəhmət olmasa başlamaq üçün bir rejim seçin</p>
+          </div>
+          <div className={styles.cards}>
+            <div onClick={handleSinglePlayer} className={styles.card}>
+              <div className={styles.cardIcon}>
+                <SinglePlayerIcon className={styles.icon} />
+              </div>
+              <div className={styles.cardContent}>
+                <h3 className={styles.cardTitle}>{t("price_guesser.single_player")}</h3>
+                <p className={styles.cardDescription}>Öz biliklərini sınayın və rekord qırın</p>
+              </div>
             </div>
-          </button>
-          <button onClick={handleMultiPlayer} className={styles.button}>
-            <div className={styles.buttonInnerDiv}>
-              <MultiPlayerIcon fill="#fff"></MultiPlayerIcon>
-              {t("price_guesser.multi_player")}
+            <div onClick={handleMultiPlayer} className={`${styles.card} ${styles.cardMultiplayer}`}>
+              <div className={styles.cardIcon}>
+                <MultiPlayerIcon className={styles.icon} />
+              </div>
+              <div className={styles.cardContent}>
+                <h3 className={styles.cardTitle}>{t("price_guesser.multi_player")}</h3>
+                <p className={styles.cardDescription}>Dostlarınızla yarışın və qələbə qazanın</p>
+              </div>
+              <div className={styles.arrow}>›</div>
             </div>
-          </button>
-        </div>
+          </div>
+        </div> */}
+        <main className="flex-1 flex flex-col justify-center items-center px-6 py-20 w-full max-w-3xl mx-auto">
+
+          {/* Title Section */}
+          <div className="text-center mb-10 animate-slide-up">
+            <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-2 tracking-tight">
+              Oyun Rejimi
+            </h1>
+            <p className="text-gray-500 dark:text-gray-400 text-sm font-medium font-poppins!">
+              Zəhmət olmasa başlamaq üçün bir rejim seçin
+            </p>
+          </div>
+
+          {/* Mode Grid */}
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-5 animate-slide-up [animation-delay:100ms]">
+            <GameModeCard
+              title="Tək Oyunçu"
+              description="Öz biliklərinizi sınayın və rekord qırın."
+              mode="light"
+              icon="person"
+              onClick={handleSinglePlayer}
+            />
+
+            <GameModeCard
+              title="Çox Oyunçu"
+              description="Dostlarınızla yarışın və qalib gəlin."
+              mode="primary"
+              icon="groups"
+              onClick={handleMultiPlayer}
+            />
+          </div>
+
+
+        </main>
       </div>
+
+
     </>
   );
 }

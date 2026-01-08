@@ -7,6 +7,7 @@
   flex-direction: column;
   padding: 20px;
   box-sizing: border-box;
+  background-color: var(--bg-color-main);
 }
 
 .main img {
